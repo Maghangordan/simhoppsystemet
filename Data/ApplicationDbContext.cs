@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using simhoppsystemet.Models;
 
 namespace simhoppsystemet.Data
 {
@@ -12,5 +13,6 @@ namespace simhoppsystemet.Data
             : base(options)
         {
         }
+        public DbSet<simhoppsystemet.Models.Competition> Competition { get; set; }
     }
 }
