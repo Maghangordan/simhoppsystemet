@@ -10,62 +10,63 @@ using simhoppsystemet.Models;
 
 namespace simhoppsystemet.Controllers
 {
-    public class CompetitionsController : Controller
+    public class CompetitorsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CompetitionsController(ApplicationDbContext context)
+        public CompetitorsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Competitions
+        // GET: Competitors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Competition.ToListAsync());
+            return View(await _context.Competitor.ToListAsync());
         }
 
-        // GET: Competitions/Details/5
+        // GET: Competitors/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            //Dive dive = new Dive();
             if (id == null)
             {
                 return NotFound();
             }
 
-            var competition = await _context.Competition
+            var competitor = await _context.Competitor
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (competition == null)
+            if (competitor == null)
             {
                 return NotFound();
             }
-
-            return View(competition);
+            //dive.CompetitorId = competitor.Id;
+            return View(competitor);
         }
 
-        // GET: Competitions/Create
+        // GET: Competitors/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Competitions/Create
+        // POST: Competitors/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Date,Name")] Competition competition)
+        public async Task<IActionResult> Create([Bind("Id,Age,Name,Gender,Organization")] Competitor competitor)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(competition);
+                _context.Add(competitor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(competition);
+            return View(competitor);
         }
 
-        // GET: Competitions/Edit/5
+        // GET: Competitors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +74,22 @@ namespace simhoppsystemet.Controllers
                 return NotFound();
             }
 
-            var competition = await _context.Competition.FindAsync(id);
-            if (competition == null)
+            var competitor = await _context.Competitor.FindAsync(id);
+            if (competitor == null)
             {
                 return NotFound();
             }
-            return View(competition);
+            return View(competitor);
         }
 
-        // POST: Competitions/Edit/5
+        // POST: Competitors/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Name")] Competition competition)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Age,Name,Gender,Organization")] Competitor competitor)
         {
-            if (id != competition.Id)
+            if (id != competitor.Id)
             {
                 return NotFound();
             }
@@ -97,12 +98,12 @@ namespace simhoppsystemet.Controllers
             {
                 try
                 {
-                    _context.Update(competition);
+                    _context.Update(competitor);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CompetitionExists(competition.Id))
+                    if (!CompetitorExists(competitor.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +114,10 @@ namespace simhoppsystemet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(competition);
+            return View(competitor);
         }
 
-        // GET: Competitions/Delete/5
+        // GET: Competitors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +125,30 @@ namespace simhoppsystemet.Controllers
                 return NotFound();
             }
 
-            var competition = await _context.Competition
+            var competitor = await _context.Competitor
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (competition == null)
+            if (competitor == null)
             {
                 return NotFound();
             }
 
-            return View(competition);
+            return View(competitor);
         }
 
-        // POST: Competitions/Delete/5
+        // POST: Competitors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var competition = await _context.Competition.FindAsync(id);
-            _context.Competition.Remove(competition);
+            var competitor = await _context.Competitor.FindAsync(id);
+            _context.Competitor.Remove(competitor);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CompetitionExists(int id)
+        private bool CompetitorExists(int id)
         {
-            return _context.Competition.Any(e => e.Id == id);
+            return _context.Competitor.Any(e => e.Id == id);
         }
     }
 }
