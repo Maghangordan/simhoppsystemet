@@ -226,15 +226,39 @@ namespace simhoppsystemet.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Date")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
                     b.ToTable("Competition");
+                });
+
+            modelBuilder.Entity("simhoppsystemet.Models.CompetitionCompetitor", b =>
+                {
+                    b.Property<int>("CompetitionCompetitorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CompetitionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CompetitorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CompetitionCompetitorId");
+
+                    b.HasIndex("CompetitionId");
+
+                    b.HasIndex("CompetitorId");
+
+                    b.ToTable("CompetitionCompetitor");
                 });
 
             modelBuilder.Entity("simhoppsystemet.Models.Competitor", b =>
@@ -248,17 +272,60 @@ namespace simhoppsystemet.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Organization")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
                     b.ToTable("Competitor");
+                });
+
+            modelBuilder.Entity("simhoppsystemet.Models.Dive", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CompetitionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CompetitorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DiveGroup")
+                        .HasColumnType("int");
+
+                    b.Property<double>("FinalScore")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PointsA")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PointsB")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PointsC")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompetitionId");
+
+                    b.HasIndex("CompetitorId");
+
+                    b.ToTable("Dive");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -308,6 +375,36 @@ namespace simhoppsystemet.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("simhoppsystemet.Models.CompetitionCompetitor", b =>
+                {
+                    b.HasOne("simhoppsystemet.Models.Competition", "Competition")
+                        .WithMany("CompetitionCompetitor")
+                        .HasForeignKey("CompetitionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("simhoppsystemet.Models.Competitor", "Competitor")
+                        .WithMany("CompetitionCompetitor")
+                        .HasForeignKey("CompetitorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("simhoppsystemet.Models.Dive", b =>
+                {
+                    b.HasOne("simhoppsystemet.Models.Competition", "Competition")
+                        .WithMany("Dives")
+                        .HasForeignKey("CompetitionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("simhoppsystemet.Models.Competitor", "Competitor")
+                        .WithMany("Dives")
+                        .HasForeignKey("CompetitorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
