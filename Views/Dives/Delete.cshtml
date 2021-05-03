@@ -1,0 +1,63 @@
+﻿@model simhoppsystemet.Models.Dive
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Dive</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Competitor)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Competitor.Id)
+        </dd class>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Competition)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Competition.Id)
+        </dd class>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DiveGroup)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DiveGroup)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PointsA)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PointsA)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PointsB)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PointsB)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PointsC)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PointsC)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FinalScore)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FinalScore)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

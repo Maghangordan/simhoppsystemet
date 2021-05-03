@@ -1,0 +1,60 @@
+﻿@model simhoppsystemet.Models.Dive
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Dive</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Competitor)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Competitor.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Competition)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Competition.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DiveGroup)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DiveGroup)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PointsA)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PointsA)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PointsB)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PointsB)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PointsC)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PointsC)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FinalScore)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FinalScore)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

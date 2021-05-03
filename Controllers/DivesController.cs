@@ -10,22 +10,23 @@ using simhoppsystemet.Models;
 
 namespace simhoppsystemet.Controllers
 {
-    public class CompetitorsController : Controller
+    public class DivesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CompetitorsController(ApplicationDbContext context)
+        public DivesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Competitors
+        // GET: Dives
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Competitor.ToListAsync());
+            var applicationDbContext = _context.Dive.Include(d => d.Competition).Include(d => d.Competitor);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Competitors/Details/5
+        // GET: Dives/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +34,45 @@ namespace simhoppsystemet.Controllers
                 return NotFound();
             }
 
-            var competitor = await _context.Competitor
+            var dive = await _context.Dive
+                .Include(d => d.Competition)
+                .Include(d => d.Competitor)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (competitor == null)
+            if (dive == null)
             {
                 return NotFound();
             }
 
-            return View(competitor);
+            return View(dive);
         }
 
-        // GET: Competitors/Create
+        // GET: Dives/Create
         public IActionResult Create()
         {
+            ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id");
+            ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id");
             return View();
         }
 
-        // POST: Competitors/Create
+        // POST: Dives/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Age,Name,Gender,Organization")] Competitor competitor)
+        public async Task<IActionResult> Create([Bind("Id,CompetitionId,CompetitorId,DiveGroup,PointsA,PointsB,PointsC,FinalScore")] Dive dive)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(competitor);
+                _context.Add(dive);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(competitor);
+            ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
+            ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);
+            return View(dive);
         }
 
-        // GET: Competitors/Edit/5
+        // GET: Dives/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +80,24 @@ namespace simhoppsystemet.Controllers
                 return NotFound();
             }
 
-            var competitor = await _context.Competitor.FindAsync(id);
-            if (competitor == null)
+            var dive = await _context.Dive.FindAsync(id);
+            if (dive == null)
             {
                 return NotFound();
             }
-            return View(competitor);
+            ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
+            ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);
+            return View(dive);
         }
 
-        // POST: Competitors/Edit/5
+        // POST: Dives/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Age,Name,Gender,Organization")] Competitor competitor)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CompetitionId,CompetitorId,DiveGroup,PointsA,PointsB,PointsC,FinalScore")] Dive dive)
         {
-            if (id != competitor.Id)
+            if (id != dive.Id)
             {
                 return NotFound();
             }
@@ -97,12 +106,12 @@ namespace simhoppsystemet.Controllers
             {
                 try
                 {
-                    _context.Update(competitor);
+                    _context.Update(dive);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CompetitorExists(competitor.Id))
+                    if (!DiveExists(dive.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +122,12 @@ namespace simhoppsystemet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(competitor);
+            ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
+            ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);
+            return View(dive);
         }
 
-        // GET: Competitors/Delete/5
+        // GET: Dives/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +135,32 @@ namespace simhoppsystemet.Controllers
                 return NotFound();
             }
 
-            var competitor = await _context.Competitor
+            var dive = await _context.Dive
+                .Include(d => d.Competition)
+                .Include(d => d.Competitor)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (competitor == null)
+            if (dive == null)
             {
                 return NotFound();
             }
 
-            return View(competitor);
+            return View(dive);
         }
 
-        // POST: Competitors/Delete/5
+        // POST: Dives/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var competitor = await _context.Competitor.FindAsync(id);
-            _context.Competitor.Remove(competitor);
+            var dive = await _context.Dive.FindAsync(id);
+            _context.Dive.Remove(dive);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CompetitorExists(int id)
+        private bool DiveExists(int id)
         {
-            return _context.Competitor.Any(e => e.Id == id);
+            return _context.Dive.Any(e => e.Id == id);
         }
     }
 }
