@@ -54,7 +54,7 @@ namespace simhoppsystemet.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Date,Name")] Competition competition)
+        public async Task<IActionResult> Create([Bind("Id, Date, Name")] Competition competition)
         {
             if (ModelState.IsValid)
             {
@@ -72,6 +72,10 @@ namespace simhoppsystemet.Controllers
             {
                 return NotFound();
             }
+
+
+            IList<Competitor> competitorList = _context.Competitor.ToList();
+            ViewData["competitors"] = competitorList;
 
             var competition = await _context.Competition.FindAsync(id);
             if (competition == null)
