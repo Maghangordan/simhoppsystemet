@@ -33,6 +33,11 @@ namespace simhoppsystemet.Controllers
                 return NotFound();
             }
 
+            // One way to display the competitors in a specific competition
+            //Is to check the ID  to the CompetitionsCompetitors
+            // when getting the list, so the list that is 
+            // Created below only contains the actual competitors for that competition.
+
             //Displays all the competitors, not only the ones in the competitiotn for now
             IList<Competitor> competitorList = _context.Competitor.ToList();
             ViewData["competitors"] = competitorList;
@@ -50,6 +55,10 @@ namespace simhoppsystemet.Controllers
         // GET: Competitions/Create
         public IActionResult Create()
         {
+
+            IList<Competitor> competitorList = _context.Competitor.ToList();
+            ViewData["competitors"] = competitorList;
+
             return View();
         }
 
@@ -60,8 +69,11 @@ namespace simhoppsystemet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id, Date, Name")] Competition competition)
         {
+
+
             if (ModelState.IsValid)
             {
+
                 _context.Add(competition);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
