@@ -33,6 +33,10 @@ namespace simhoppsystemet.Controllers
                 return NotFound();
             }
 
+            //Displays all the competitors, not only the ones in the competitiotn for now
+            IList<Competitor> competitorList = _context.Competitor.ToList();
+            ViewData["competitors"] = competitorList;
+
             var competition = await _context.Competition
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (competition == null)
