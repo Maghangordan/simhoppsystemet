@@ -30,7 +30,8 @@
                 @foreach (var std in ViewData["competitors"] as IList<Competitor>)
                 {
                     <li>
-                        <label> @std.Name</label> 
+                        <label asp-for="CompetitionCompetitor"> @std.Name</label> 
+                        <input type="checkbox"/>
                     </li>
                 }
             </div>

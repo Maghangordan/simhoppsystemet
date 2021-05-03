@@ -16,5 +16,6 @@ namespace simhoppsystemet.Data
         public DbSet<simhoppsystemet.Models.Competition> Competition { get; set; }
         public DbSet<simhoppsystemet.Models.Competitor> Competitor { get; set; }
         public DbSet<simhoppsystemet.Models.Dive> Dive { get; set; }
+        public DbSet<simhoppsystemet.Models.CompetitionCompetitor> CompetitionCompetitor { get; set; }
     }
 }
