@@ -45,7 +45,28 @@ namespace simhoppsystemet.Controllers
 
             return View(dive);
         }
+        public IActionResult AddDive()
+        {
+            
+            ViewData["CompetitionId"] = new SelectList(_context.Competition, "Name", "Name");
+            ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Name", "Name");
 
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddDive([Bind("CompetitionId,CompetitorId,DiveGroup")] Dive dive)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(dive);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
+            ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);
+            return View(dive);
+        }
         // GET: Dives/Create
         public IActionResult Create()
         {
@@ -53,7 +74,6 @@ namespace simhoppsystemet.Controllers
             ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id");
             return View();
         }
-
         // POST: Dives/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.

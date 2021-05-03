@@ -46,6 +46,8 @@ namespace simhoppsystemet.Controllers
         // GET: Competitions/Create
         public IActionResult Create()
         {
+            ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Name", "Name");
+            
             return View();
         }
 

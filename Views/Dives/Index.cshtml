@@ -40,10 +40,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Competitor.Id)
+                @Html.DisplayFor(modelItem => item.Competitor.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CompetitionId)
+                @Html.DisplayFor(modelItem => item.Competition.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DiveGroup)
