@@ -42,6 +42,12 @@ namespace simhoppsystemet.Controllers
             IList<Competitor> competitorList = _context.Competitor.ToList();
             ViewData["competitors"] = competitorList;
 
+            //Här kommer jag skriva in en fullständigt sjuk sql-query some löser alla världsproblem
+            //Just nu så visar den samtliga dykningar för alla deltagare. Inge bra.
+            IList<Dive> diveList = _context.Dive.ToList();
+            ViewData["dives"] = diveList;
+            
+            
             var competition = await _context.Competition
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (competition == null)
