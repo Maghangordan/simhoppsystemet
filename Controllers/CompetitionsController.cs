@@ -34,7 +34,7 @@ namespace simhoppsystemet.Controllers
         // POST: Competitions/ShowSearchResult
         public async Task<IActionResult> ShowSearchResults(string SearchPhrase)
         {
-            return View("Index", await _context.Competition.Where( j=> j.Name.Contains(SearchPhrase)).ToListAsync());
+            return View("Index", await _context.Competition.Where(j => j.Name.Contains(SearchPhrase)).ToListAsync());
         }
 
         // GET: Competitions/Details/5
@@ -58,8 +58,8 @@ namespace simhoppsystemet.Controllers
             //Just nu så visar den samtliga dykningar för alla deltagare. Inge bra.
             IList<Dive> diveList = _context.Dive.ToList();
             ViewData["dives"] = diveList;
-            
-            
+
+
             var competition = await _context.Competition
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (competition == null)
@@ -74,8 +74,7 @@ namespace simhoppsystemet.Controllers
         public IActionResult Create()
         {
 
-            IList<Competitor> competitorList = _context.Competitor.ToList();
-            ViewData["competitors"] = competitorList;
+            ViewData["Competitors"] = new SelectList(_context.Competitor, "Id", "Name");
 
             return View();
         }
@@ -88,16 +87,52 @@ namespace simhoppsystemet.Controllers
         public async Task<IActionResult> Create([Bind("Id, Date, Name")] Competition competition)
         {
 
+            IList<Competitor> competitorList = _context.Competitor.ToList();
+            ViewData["Competitors"] = new SelectList(_context.Competitor, "Id", "Name");
 
             if (ModelState.IsValid)
             {
 
                 _context.Add(competition);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["CompetitionId"] = competition.Id;
+                return RedirectToAction("AddCompetitors");
             }
             return View(competition);
         }
+
+        public IActionResult AddCompetitors()
+        {
+            ViewData["Competitors"] = new SelectList(_context.Competitor, "Id", "Name");
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddCompetitors(int CompetitorName)
+        {
+            int competeId = (int)TempData["CompetitionId"];
+
+            CompetitionCompetitor newLink = new CompetitionCompetitor
+            {
+                CompetitionId = competeId,
+                CompetitorId = CompetitorName
+          
+            };
+
+            _context.CompetitionCompetitor.Add(newLink);
+            _context.SaveChanges();
+
+            return RedirectToAction("Edit", new { id = competeId });
+        }
+
+
+
+
+
+
+
 
         // GET: Competitions/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -107,9 +142,13 @@ namespace simhoppsystemet.Controllers
                 return NotFound();
             }
 
+            TempData["CompetitionId"] = id;
 
-            IList<Competitor> competitorList = _context.Competitor.ToList();
-            ViewData["competitors"] = competitorList;
+            IList<Competitor> competitorList = _context.Competitor.Where(j => j.Id.Equals(_context.CompetitionCompetitor.Where(j => j.CompetitionId.Equals(id))));
+            
+            
+            ViewData["Competitors"] = competitorList;
+            //REturns all competitors in the selected competition
 
             var competition = await _context.Competition.FindAsync(id);
             if (competition == null)
