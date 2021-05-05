@@ -22,6 +22,7 @@ namespace simhoppsystemet.Controllers
         // GET: Competitors
         public async Task<IActionResult> Index()
         {
+
             return View(await _context.Competitor.ToListAsync());
         }
 
@@ -32,14 +33,15 @@ namespace simhoppsystemet.Controllers
             {
                 return NotFound();
             }
-
+            
             var competitor = await _context.Competitor
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (competitor == null)
             {
                 return NotFound();
             }
-
+            IList<Dive> diveList = _context.Dive.Where(j=>j.CompetitorId==competitor.Id).ToList();
+            ViewData["dives"] = diveList;
             return View(competitor);
         }
 
@@ -54,11 +56,13 @@ namespace simhoppsystemet.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Age,Name,Gender,Organization")] Competitor competitor)
+        public async Task<IActionResult> Create([Bind("Id,Age,Name,Gender,Organization,CompetitionsId")] Competitor competitor)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(competitor);
+                
+                
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -86,7 +90,7 @@ namespace simhoppsystemet.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Age,Name,Gender,Organization")] Competitor competitor)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Age,Name,Gender,Organization,CompetitionsId")] Competitor competitor)
         {
             if (id != competitor.Id)
             {

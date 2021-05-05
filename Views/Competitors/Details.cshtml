@@ -10,30 +10,49 @@
     <h4>Competitor</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Age)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Age)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Gender)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Gender)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Organization)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Organization)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CompetitionsId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CompetitionsId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Dives)
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var std in ViewData["dives"] as IList<Dive>)
+            {
+
+                <label asp-for="Dives"> @std.DiveGroup,</label>
+
+
+            }
+        </dd>
+
     </dl>
 </div>
 <div>

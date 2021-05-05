@@ -23,9 +23,9 @@ namespace simhoppsystemet.Models
         [StringLength(50, MinimumLength = 2)]
         public string Organization { get; set; }
         public List<Dive> Dives { get; set; } //1-N
-        public ICollection<CompetitionCompetitor> CompetitionCompetitor { get; set; }
-
-
+        public string CompetitionsId { get; set; }
+        public CompetitionCompetitor CompetitionCompetitor { get; set; }
+        
 
     }
 }

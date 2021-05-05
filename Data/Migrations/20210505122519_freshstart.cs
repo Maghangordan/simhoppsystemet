@@ -2,7 +2,7 @@
 
 namespace simhoppsystemet.Data.Migrations
 {
-    public partial class dankDBupdate : Migration
+    public partial class freshstart : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

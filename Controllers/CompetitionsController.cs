@@ -44,21 +44,6 @@ namespace simhoppsystemet.Controllers
             {
                 return NotFound();
             }
-
-            // One way to display the competitors in a specific competition
-            //Is to check the ID  to the CompetitionsCompetitors
-            // when getting the list, so the list that is 
-            // Created below only contains the actual competitors for that competition.
-
-            //Displays all the competitors, not only the ones in the competitiotn for now
-            IList<Competitor> competitorList = _context.Competitor.ToList();
-            ViewData["competitors"] = competitorList;
-
-            //Här kommer jag skriva in en fullständigt sjuk sql-query some löser alla världsproblem
-            //Just nu så visar den samtliga dykningar för alla deltagare. Inge bra.
-            IList<Dive> diveList = _context.Dive.ToList();
-            ViewData["dives"] = diveList;
-            
             
             var competition = await _context.Competition
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -66,7 +51,20 @@ namespace simhoppsystemet.Controllers
             {
                 return NotFound();
             }
+            // One way to display the competitors in a specific competition
+            //Is to check the ID  to the CompetitionsCompetitors
+            // when getting the list, so the list that is 
+            // Created below only contains the actual competitors for that competition.
 
+            //Displays all the competitors, not only the ones in the competitiotn for now
+            string IdN = competition.Id.ToString();
+            
+            IList<Competitor> competitorList = _context.Competitor.Where(j => j.CompetitionsId.Contains(IdN)||j.CompetitionsId.Contains(competition.Name)).ToList();
+            ViewData["competitors"] = competitorList;
+            //Här kommer jag skriva in en fullständigt sjuk sql-query some löser alla världsproblem
+            //Just nu så visar den samtliga dykningar för alla deltagare. Inge bra.
+            IList<Dive> diveList = _context.Dive.Where(j=>j.CompetitionId==competition.Id).ToList();
+            ViewData["dives"] = diveList;
             return View(competition);
         }
 
@@ -88,7 +86,6 @@ namespace simhoppsystemet.Controllers
         public async Task<IActionResult> Create([Bind("Id, Date, Name")] Competition competition)
         {
 
-
             if (ModelState.IsValid)
             {
 
@@ -98,7 +95,53 @@ namespace simhoppsystemet.Controllers
             }
             return View(competition);
         }
+        //---------------------------------------------------------
+        public async Task<IActionResult> AddCompetitors(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var competitor = await _context.Competitor.FindAsync(id);
+            if (competitor == null)
+            {
+                return NotFound();
+            }
+            return View(competitor);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddCompetitors(int id, [Bind("CompetitionsId")] Competitor competitor)
+        {
+            if (id != competitor.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(competitor);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CompetitorExists(competitor.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(competitor);
+        }
+        //--------------------------------------------------------
         // GET: Competitions/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -186,6 +229,10 @@ namespace simhoppsystemet.Controllers
         private bool CompetitionExists(int id)
         {
             return _context.Competition.Any(e => e.Id == id);
+        }
+        private bool CompetitorExists(int id)
+        {
+            return _context.Competitor.Any(e => e.Id == id);
         }
     }
 }

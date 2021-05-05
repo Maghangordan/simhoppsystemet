@@ -10,8 +10,8 @@ using simhoppsystemet.Data;
 namespace simhoppsystemet.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210503084423_testDive")]
-    partial class testDive
+    [Migration("20210505122519_freshstart")]
+    partial class freshstart
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -228,15 +228,39 @@ namespace simhoppsystemet.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Date")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
                     b.ToTable("Competition");
+                });
+
+            modelBuilder.Entity("simhoppsystemet.Models.CompetitionCompetitor", b =>
+                {
+                    b.Property<int>("CompetitionCompetitorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CompetitionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CompetitorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CompetitionCompetitorId");
+
+                    b.HasIndex("CompetitionId");
+
+                    b.HasIndex("CompetitorId");
+
+                    b.ToTable("CompetitionCompetitor");
                 });
 
             modelBuilder.Entity("simhoppsystemet.Models.Competitor", b =>
@@ -250,13 +274,19 @@ namespace simhoppsystemet.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Organization")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
@@ -351,16 +381,31 @@ namespace simhoppsystemet.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("simhoppsystemet.Models.Dive", b =>
+            modelBuilder.Entity("simhoppsystemet.Models.CompetitionCompetitor", b =>
                 {
                     b.HasOne("simhoppsystemet.Models.Competition", "Competition")
-                        .WithMany()
+                        .WithMany("CompetitionCompetitor")
                         .HasForeignKey("CompetitionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("simhoppsystemet.Models.Competitor", "Competitor")
-                        .WithMany()
+                        .WithMany("CompetitionCompetitor")
+                        .HasForeignKey("CompetitorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("simhoppsystemet.Models.Dive", b =>
+                {
+                    b.HasOne("simhoppsystemet.Models.Competition", "Competition")
+                        .WithMany("Dives")
+                        .HasForeignKey("CompetitionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("simhoppsystemet.Models.Competitor", "Competitor")
+                        .WithMany("Dives")
                         .HasForeignKey("CompetitorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

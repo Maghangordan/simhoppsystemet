@@ -254,9 +254,11 @@ namespace simhoppsystemet.Data.Migrations
 
                     b.HasKey("CompetitionCompetitorId");
 
-                    b.HasIndex("CompetitionId");
+                    b.HasIndex("CompetitionId")
+                        .IsUnique();
 
-                    b.HasIndex("CompetitorId");
+                    b.HasIndex("CompetitorId")
+                        .IsUnique();
 
                     b.ToTable("CompetitionCompetitor");
                 });
@@ -270,6 +272,9 @@ namespace simhoppsystemet.Data.Migrations
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
+
+                    b.Property<string>("CompetitionsId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
                         .IsRequired()
@@ -382,14 +387,14 @@ namespace simhoppsystemet.Data.Migrations
             modelBuilder.Entity("simhoppsystemet.Models.CompetitionCompetitor", b =>
                 {
                     b.HasOne("simhoppsystemet.Models.Competition", "Competition")
-                        .WithMany("CompetitionCompetitor")
-                        .HasForeignKey("CompetitionId")
+                        .WithOne("CompetitionCompetitor")
+                        .HasForeignKey("simhoppsystemet.Models.CompetitionCompetitor", "CompetitionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("simhoppsystemet.Models.Competitor", "Competitor")
-                        .WithMany("CompetitionCompetitor")
-                        .HasForeignKey("CompetitorId")
+                        .WithOne("CompetitionCompetitor")
+                        .HasForeignKey("simhoppsystemet.Models.CompetitionCompetitor", "CompetitorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

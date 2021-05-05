@@ -2,7 +2,7 @@
 
 namespace simhoppsystemet.Data.Migrations
 {
-    public partial class BetaTestingVersionBAMFUpdate : Migration
+    public partial class stringsarna : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Gender" class="custom-radio"></label>
-                <div></div>        
+                <div></div>
                 Male: <input id="Gender" name="Gender" type="radio" value="Male" />
                 Female: <input id="Gender" name="Gender" type="radio" value="Female" />
             </div>
@@ -32,6 +32,11 @@
                 <label asp-for="Organization" class="control-label"></label>
                 <input asp-for="Organization" class="form-control" />
                 <span asp-validation-for="Organization" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompetitionsId" class="control-label"></label>
+                <input asp-for="CompetitionsId" class="form-control" />
+                <span asp-validation-for="CompetitionsId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
