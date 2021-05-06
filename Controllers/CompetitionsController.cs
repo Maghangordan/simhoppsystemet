@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using simhoppsystemet.Data;
 using simhoppsystemet.Models;
 
@@ -144,10 +145,14 @@ namespace simhoppsystemet.Controllers
 
             TempData["CompetitionId"] = id;
 
-            IList<Competitor> competitorList = _context.Competitor.Where(j => j.Id.Equals(_context.CompetitionCompetitor.Where(j => j.CompetitionId.Equals(id))));
-            
-            
-            ViewData["Competitors"] = competitorList;
+            //Gives list of Competitor ID:s where competition is
+            IList<CompetitionCompetitor> IDList = _context.CompetitionCompetitor.Where(j => j.CompetitionId.Equals(id)).ToList();
+
+            IList<Competitor> competList = _context.Competitor.ToList();
+
+        
+            //_context.Competitor.Where(j => j.Id.Equals(_context.CompetitionCompetitor.Where(j => j.CompetitionId.Equals(id)))).ToList();
+
             //REturns all competitors in the selected competition
 
             var competition = await _context.Competition.FindAsync(id);

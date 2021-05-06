@@ -31,22 +31,30 @@
             </div>
 
         </form>
-       
 
 
-        <form asp-action="AddCompetitors">
-            <div class="form-group">
+        @foreach (var std in ViewData["competitors"] as IList<Competitor>)
+        {
+            <a>
+                @std.Name;
+            </a>
+             }
 
-                <div class="form-group">
 
-                    <label for="CompetitorName" class="control-label"></label>
-                    <select name="CompetitorName" class="dropdown" asp-items="ViewBag.Competitors"></select>
-                </div>
 
-                <input type="submit" value="Add Competitors" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+                <form asp-action="AddCompetitors">
+                    <div class="form-group">
+
+                        <div class="form-group">
+
+                            <label for="CompetitorName" class="control-label"></label>
+                            <select name="CompetitorName" class="dropdown" asp-items="ViewBag.Competitors"></select>
+                        </div>
+
+                        <input type="submit" value="Add Competitors" class="btn btn-primary" />
+                    </div>
+                </form>
+        </div>
 </div>
 
 <div>
