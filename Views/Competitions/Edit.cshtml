@@ -7,6 +7,7 @@
 
 
 
+
 <h1>Edit</h1>
 
 <h4>Competition</h4>
@@ -33,11 +34,10 @@
         </form>
 
 
-        @foreach (var std in ViewData["competitors"] as IList<Competitor>)
+        @foreach (var std in ViewData["CompetitorinEvent"] as IList<CompetitionCompetitor>)
         {
-            <a>
-                @std.Name;
-            </a>
+            <li>@std.CompetitorId</li>
+
              }
 
 

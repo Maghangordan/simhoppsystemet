@@ -147,13 +147,12 @@ namespace simhoppsystemet.Controllers
 
             //Gives list of Competitor ID:s where competition is
             IList<CompetitionCompetitor> IDList = _context.CompetitionCompetitor.Where(j => j.CompetitionId.Equals(id)).ToList();
-
-            IList<Competitor> competList = _context.Competitor.ToList();
-
-        
-            //_context.Competitor.Where(j => j.Id.Equals(_context.CompetitionCompetitor.Where(j => j.CompetitionId.Equals(id)))).ToList();
-
+            ViewData["CompetitorinEvent"] = IDList;
             //REturns all competitors in the selected competition
+
+            ViewData["Competitors"] = new SelectList(_context.Competitor, "Id", "Name");
+
+
 
             var competition = await _context.Competition.FindAsync(id);
             if (competition == null)
