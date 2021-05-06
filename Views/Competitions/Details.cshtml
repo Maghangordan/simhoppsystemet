@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Details";
 }
-
+@using static simhoppsystemet.Models.Competitor;
 <h1>Details</h1>
 
 <div>
@@ -25,6 +25,29 @@
     </dl>
 </div>
 <div>
+<<<<<<< Updated upstream
+=======
+    <h4>Divers</h4>
+
+    @foreach (var std in ViewData["competitors"] as IList<Competitor>)
+    {
+        <li>
+            <label asp-for="CompetitionCompetitor"> @std.Name</label>
+            <input type="checkbox" />
+            @foreach (var dive in ViewData["dives"] as IList<Dive>)
+            {
+                <a>
+                    @dive.DiveGroup;
+                </a>
+            }
+        </li>
+
+
+    }
+</div>
+
+<div>
+>>>>>>> Stashed changes
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

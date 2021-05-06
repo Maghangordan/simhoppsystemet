@@ -34,6 +34,23 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Organization)
         </dd>
+<<<<<<< Updated upstream
+=======
+        
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Dives)
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var std in ViewData["dives"] as IList<Dive>)
+            {
+
+                <label asp-for="Dives"> @std.DiveGroup,</label>
+
+
+            }
+        </dd>
+
+>>>>>>> Stashed changes
     </dl>
 </div>
 <div>

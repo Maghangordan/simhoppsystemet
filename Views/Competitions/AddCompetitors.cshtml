@@ -1,0 +1,30 @@
+﻿@model simhoppsystemet.Models.Competition
+
+@using static simhoppsystemet.Models.Competitor;
+<h4>Competitor</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddCompetitors">
+            <div class="form-group">
+
+                <label for="competitor" class="control-label"></label>
+                <select name="competitor" class="dropdown" asp-items="ViewBag.Competitors"></select>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-primary" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using simhoppsystemet.Data;
 
 namespace simhoppsystemet.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210506091532_Testarlosning")]
+    partial class Testarlosning
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -226,9 +228,6 @@ namespace simhoppsystemet.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CompetitorsId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -239,17 +238,29 @@ namespace simhoppsystemet.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompetitorsId");
-
-
                     b.ToTable("Competition");
+                });
+
+            modelBuilder.Entity("simhoppsystemet.Models.CompetitionCompetitor", b =>
+                {
+                    b.Property<int>("CompetitionCompetitorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CompetitionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CompetitorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CompetitionCompetitorId");
 
                     b.HasIndex("CompetitionId");
 
                     b.HasIndex("CompetitorId");
 
                     b.ToTable("CompetitionCompetitor");
-
                 });
 
             modelBuilder.Entity("simhoppsystemet.Models.Competitor", b =>
@@ -370,13 +381,8 @@ namespace simhoppsystemet.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("simhoppsystemet.Models.Competition", b =>
+            modelBuilder.Entity("simhoppsystemet.Models.CompetitionCompetitor", b =>
                 {
-
-                    b.HasOne("simhoppsystemet.Models.Competitor", "Competitors")
-                        .WithMany()
-                        .HasForeignKey("CompetitorsId");
-
                     b.HasOne("simhoppsystemet.Models.Competition", "Competition")
                         .WithMany("CompetitionCompetitor")
                         .HasForeignKey("CompetitionId")
@@ -388,13 +394,12 @@ namespace simhoppsystemet.Data.Migrations
                         .HasForeignKey("CompetitorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
                 });
 
             modelBuilder.Entity("simhoppsystemet.Models.Dive", b =>
                 {
                     b.HasOne("simhoppsystemet.Models.Competition", "Competition")
-                        .WithMany()
+                        .WithMany("Dives")
                         .HasForeignKey("CompetitionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
