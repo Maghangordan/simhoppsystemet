@@ -57,12 +57,11 @@ namespace simhoppsystemet.Controllers
             // Created below only contains the actual competitors for that competition.
 
             //Displays all the competitors, not only the ones in the competitiotn for now
-            string IdN = competition.Id.ToString();
-            
-            IList<Competitor> competitorList = _context.Competitor.Where(j => j.CompetitionsId.Contains(IdN)||j.CompetitionsId.Contains(competition.Name)).ToList();
+
+            IList < CompetitionCompetitor> competitorList = _context.CompetitionCompetitor.Where(j=>j.CompetitionId==competition.Id).ToList();
             ViewData["competitors"] = competitorList;
             //Här kommer jag skriva in en fullständigt sjuk sql-query some löser alla världsproblem
-            //Just nu så visar den samtliga dykningar för alla deltagare. Inge bra.
+            //Just nu så visar den samtliga dyk för alla deltagare. Inge bra.
             IList<Dive> diveList = _context.Dive.Where(j=>j.CompetitionId==competition.Id).ToList();
             ViewData["dives"] = diveList;
             return View(competition);
@@ -98,48 +97,28 @@ namespace simhoppsystemet.Controllers
         //---------------------------------------------------------
         public async Task<IActionResult> AddCompetitors(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var competitor = await _context.Competitor.FindAsync(id);
-            if (competitor == null)
-            {
-                return NotFound();
-            }
-            return View(competitor);
+            ViewData["competitors"] = new SelectList(_context.Competitor, "Id", "Name");
+            TempData["CompetitionId"] = id;
+            var competition = await _context.Competition.FindAsync(id);
+            return View(competition);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddCompetitors(int id, [Bind("CompetitionsId")] Competitor competitor)
+        public async Task<IActionResult> AddCompetitors(int CompetitorName)
         {
-            if (id != competitor.Id)
-            {
-                return NotFound();
-            }
+            int competeId = (int)TempData["CompetitionId"];
 
-            if (ModelState.IsValid)
+            CompetitionCompetitor newLink = new CompetitionCompetitor
             {
-                try
-                {
-                    _context.Update(competitor);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CompetitorExists(competitor.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(competitor);
+                CompetitionId = competeId,
+                CompetitorId = CompetitorName
+
+            };
+
+            _context.CompetitionCompetitor.Add(newLink);
+            _context.SaveChanges();
+
+            return RedirectToAction("AddCompetitors");
         }
         //--------------------------------------------------------
         // GET: Competitions/Edit/5

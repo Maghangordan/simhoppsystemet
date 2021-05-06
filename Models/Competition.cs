@@ -18,7 +18,7 @@ namespace simhoppsystemet.Models
         public string Name { get; set; }
         public List<Dive> Dives { get; set; } //1-N
         
-        public CompetitionCompetitor CompetitionCompetitor { get; set; }
+        public ICollection<CompetitionCompetitor> CompetitionCompetitor { get; set; }
 
         public Competition()
         {

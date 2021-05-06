@@ -24,9 +24,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Organization)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CompetitionsId)
-            </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -47,9 +45,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Organization)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompetitionsId)
-            </td>
+            
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>

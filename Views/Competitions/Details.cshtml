@@ -27,10 +27,10 @@
 <div>
     <h4>Divers</h4>
 
-    @foreach (var std in ViewData["competitors"] as IList<Competitor>)
+    @foreach (var std in ViewData["competitors"] as IList<CompetitionCompetitor>)
     {
 <li>
-    <label asp-for="CompetitionCompetitor"> @std.Name</label>
+    <label asp-for="CompetitionCompetitor"> @std.CompetitorId</label>
     <input type="checkbox" />
     @foreach (var dive in ViewData["dives"] as IList<Dive>)
     {

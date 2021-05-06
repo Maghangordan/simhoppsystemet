@@ -56,7 +56,7 @@ namespace simhoppsystemet.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Age,Name,Gender,Organization,CompetitionsId")] Competitor competitor)
+        public async Task<IActionResult> Create([Bind("Id,Age,Name,Gender,Organization")] Competitor competitor)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace simhoppsystemet.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Age,Name,Gender,Organization,CompetitionsId")] Competitor competitor)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Age,Name,Gender,Organization")] Competitor competitor)
         {
             if (id != competitor.Id)
             {

@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using simhoppsystemet.Data;
 
-namespace simhoppsystemet.Data.Migrations
+namespace simhoppsystemet.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210505124428_EnNyMigration")]
-    partial class EnNyMigration
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -256,11 +254,9 @@ namespace simhoppsystemet.Data.Migrations
 
                     b.HasKey("CompetitionCompetitorId");
 
-                    b.HasIndex("CompetitionId")
-                        .IsUnique();
+                    b.HasIndex("CompetitionId");
 
-                    b.HasIndex("CompetitorId")
-                        .IsUnique();
+                    b.HasIndex("CompetitorId");
 
                     b.ToTable("CompetitionCompetitor");
                 });
@@ -386,14 +382,14 @@ namespace simhoppsystemet.Data.Migrations
             modelBuilder.Entity("simhoppsystemet.Models.CompetitionCompetitor", b =>
                 {
                     b.HasOne("simhoppsystemet.Models.Competition", "Competition")
-                        .WithOne("CompetitionCompetitor")
-                        .HasForeignKey("simhoppsystemet.Models.CompetitionCompetitor", "CompetitionId")
+                        .WithMany("CompetitionCompetitor")
+                        .HasForeignKey("CompetitionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("simhoppsystemet.Models.Competitor", "Competitor")
-                        .WithOne("CompetitionCompetitor")
-                        .HasForeignKey("simhoppsystemet.Models.CompetitionCompetitor", "CompetitorId")
+                        .WithMany("CompetitionCompetitor")
+                        .HasForeignKey("CompetitorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
