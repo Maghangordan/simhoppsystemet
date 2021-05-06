@@ -26,27 +26,57 @@
 </div>
 <div>
     <h4>Divers</h4>
+    <table class="table"
+            <thead>
+                <tr>
+                    <th>Name
+                    </th>
+                    <th>
+                        Age
+                    </th>
+                    <th>
+                        Organization
+                    </th>
+                    <th>
+                        Dives
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+
+    <tbody>
 
     @foreach (var std in ViewData["competitors"] as IList<Competitor>)
-    {
-<li>
-    <a>
-        @std.Name;
-    </a>
-    
-    <input type="checkbox" />
-    @foreach (var dive in ViewData["dives"] as IList<Dive>)
-    {
-        <a>
-            @dive.DiveGroup;
-        </a>
-    }
-</li>
-        
+        {
+        <tr>
+            <td>
+                @std.Name
+            </td>
+            <td>
+                @std.Age
+            </td>
+            <td>
+                @std.Organization
+            </td>
 
-    }
+            @foreach (var dive in ViewData["dives"] as IList<Dive>)
+            {
+                <td>
+                    @dive.DiveGroup
+                </td>
+            }
+        </tr>
+
+     }
+        </tbody>
+     </table>
+
 </div>
+<div>
 
+    
+    </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
