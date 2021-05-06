@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -58,8 +59,16 @@ namespace simhoppsystemet.Controllers
 
             //Displays all the competitors, not only the ones in the competitiotn for now
 
-            IList < CompetitionCompetitor> competitorList = _context.CompetitionCompetitor.Where(j=>j.CompetitionId==competition.Id).ToList();
-            ViewData["competitors"] = competitorList;
+            IList<CompetitionCompetitor>competitioncompetitors = _context.CompetitionCompetitor.Where(j=>j.CompetitionId==competition.Id).ToList();
+            IList<Competitor> competitor = _context.Competitor.ToList(); //Full list of all competitors
+            IList<Competitor> competitorNames = new List<Competitor>(); //Empty list with loads of space and potential!
+
+            competitorNames = competitioncompetitors.Select(cc => competitor.First(c => c.Id == cc.CompetitorId)).ToList();
+            //Displays all competitors with Id which can be found in the CompetitionCompetitior for the specific competition
+      
+
+
+            ViewData["competitors"] = competitorNames;
             //Här kommer jag skriva in en fullständigt sjuk sql-query some löser alla världsproblem
             //Just nu så visar den samtliga dyk för alla deltagare. Inge bra.
             IList<Dive> diveList = _context.Dive.Where(j=>j.CompetitionId==competition.Id).ToList();
@@ -98,7 +107,7 @@ namespace simhoppsystemet.Controllers
         public async Task<IActionResult> AddCompetitors(int? id)
         {
             ViewData["competitors"] = new SelectList(_context.Competitor, "Id", "Name");
-            TempData["CompetitionId"] = id;
+            TempData["CompetitionId"] = id; //Used to smuggle data to AddCompetitors below
             var competition = await _context.Competition.FindAsync(id);
             return View(competition);
         }
