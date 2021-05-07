@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace simhoppsystemet.Models
 {
-    public class Competition
+    public class Competition: IValidatableObject
     {
         public int Id { get; set; }
         [Required]
@@ -19,6 +19,14 @@ namespace simhoppsystemet.Models
         public List<Dive> Dives { get; set; } //1-N
         
         public ICollection<CompetitionCompetitor> CompetitionCompetitor { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (this.Date < DateTime.Now)
+            {
+                yield return new ValidationResult("Can't create a competition on a past date.");
+            }
+        }
 
         public Competition()
         {
