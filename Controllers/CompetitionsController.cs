@@ -31,13 +31,11 @@ namespace simhoppsystemet.Controllers
         {
             return View();
         }
-
         // POST: Competitions/ShowSearchResult
         public async Task<IActionResult> ShowSearchResults(string SearchPhrase)
         {
             return View("Index", await _context.Competition.Where( j=> j.Name.Contains(SearchPhrase)).ToListAsync());
         }
-
         // GET: Competitions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -52,10 +50,8 @@ namespace simhoppsystemet.Controllers
             {
                 return NotFound();
             }
-
             IList<Competitor> competitors = GetCompetitors(id);
             ViewData["competitors"] = competitors;
-
             //Här kommer jag skriva in en fullständigt sjuk sql-query some löser alla världsproblem
             //Just nu så visar den samtliga dyk för alla deltagare. Inge bra.
             IList<Dive> diveList = _context.Dive.Where(j=>j.CompetitionId==competition.Id).ToList();
@@ -68,10 +64,8 @@ namespace simhoppsystemet.Controllers
         // GET: Competitions/Create
         public IActionResult Create()
         {
-
             IList<Competitor> competitorList = _context.Competitor.ToList();
             ViewData["competitors"] = competitorList;
-
             return View();
         }
 
@@ -107,7 +101,7 @@ namespace simhoppsystemet.Controllers
             IList<Competitor> competitors = GetCompetitors(id);
             ViewData["competitorsAdded"] = competitors; //The competitors that are in the current competition
 
-            ViewData["competitors"] = new SelectList(_context.Competitor, "Id", "Name"); //All the competitors
+            ViewData["competitors"] = new SelectList(GetCompetitorsNotAdded(id), "Id", "Name"); //Currently shows all
             TempData["CompetitionId"] = id; //Used to smuggle data to AddCompetitors below
             var competition = await _context.Competition.FindAsync(id);
             return View(competition);
@@ -118,17 +112,19 @@ namespace simhoppsystemet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddCompetitors(int CompetitorName)
         {
-            int competitionId = (int)TempData["CompetitionId"];
-
-            CompetitionCompetitor newLink = new CompetitionCompetitor
+            int competeId = (int)TempData["CompetitionId"];
+            
+            var newLink = new CompetitionCompetitor
             {
                 CompetitionId = competitionId,
                 CompetitorId = CompetitorName
             };
-
-            await _context.CompetitionCompetitor.AddAsync(newLink);
-            _context.SaveChanges();
-
+            if(!_context.CompetitionCompetitor.Any(cc=>cc.CompetitorId==newLink.CompetitorId && cc.CompetitionId==newLink.CompetitionId))
+            {
+                _context.CompetitionCompetitor.Add(newLink);
+                _context.SaveChanges();
+            }
+            
             return RedirectToAction("AddCompetitors");
         }
 
@@ -262,6 +258,10 @@ namespace simhoppsystemet.Controllers
 
             competitors = competitioncompetitors.Select(cc => competitor.First(c => c.Id == cc.CompetitorId)).ToList();
             return competitors;
+        }
+        private IList<Competitor> GetCompetitorsNotAdded(int? id) //Return competitors not added to competition
+        {
+            return _context.Competitor.ToList().Except(GetCompetitors(id)).ToList(); //Competitors not added
         }
     }
 }

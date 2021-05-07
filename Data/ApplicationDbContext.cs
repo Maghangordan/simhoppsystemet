@@ -13,6 +13,13 @@ namespace simhoppsystemet.Data
             : base(options)
         {
         }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<CompetitionCompetitor>(b =>
+        //    {
+        //        b.HasIndex(e => new { e.CompetitionId, e.CompetitorId }).IsUnique(); //The combination between the CompetitionId and CompetitorId in CompetitionCompetitor is unique
+        //    });
+        //}
         public DbSet<simhoppsystemet.Models.Competition> Competition { get; set; }
         public DbSet<simhoppsystemet.Models.Competitor> Competitor { get; set; }
         public DbSet<simhoppsystemet.Models.Dive> Dive { get; set; }
