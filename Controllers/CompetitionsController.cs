@@ -223,5 +223,9 @@ namespace simhoppsystemet.Controllers
             competitors = competitioncompetitors.Select(cc => competitor.First(c => c.Id == cc.CompetitorId)).ToList();
             return competitors;
         }
+        private IList<Competitor> GetCompetitorsNotAdded(int? id) //Return competitors not added to competition
+        {
+            return _context.Competitor.ToList().Except(GetCompetitors(id)).ToList(); //Competitors not added
+        }
     }
 }
