@@ -60,18 +60,7 @@ namespace simhoppsystemet.Controllers
             return View(competition);
         }
 
-        //Returns competitor list from a competition
-        private IList<Competitor> GetCompetitors(int? id)
-        {
-            var competitioncompetitors = _context.CompetitionCompetitor.Where(j => j.CompetitionId == id).ToList();
-            var competitor = _context.Competitor.ToList(); //Full list of all competitors
-            var competitors = competitioncompetitors.Select(cc => competitor.First(c => c.Id == cc.CompetitorId)).ToList();
-            return competitors;
-        }
-        private IList<Competitor> GetCompetitorsNotAdded(int? id) //Return competitors not added to competition
-        {
-            return _context.Competitor.ToList().Except(GetCompetitors(id)).ToList(); //Competitors not added
-        }
+
         // GET: Competitions/Create
         public IActionResult Create()
         {
@@ -221,6 +210,18 @@ namespace simhoppsystemet.Controllers
         private bool CompetitorExists(int id)
         {
             return _context.Competitor.Any(e => e.Id == id);
+        }
+
+
+        //Returns competitor list from a competition
+        private IList<Competitor> GetCompetitors(int? id)
+        {
+            IList<CompetitionCompetitor> competitioncompetitors = _context.CompetitionCompetitor.Where(j => j.CompetitionId == id).ToList();
+            IList<Competitor> competitor = _context.Competitor.ToList(); //Full list of all competitors
+            IList<Competitor> competitors = new List<Competitor>(); //Empty list with loads of space and potential!
+
+            competitors = competitioncompetitors.Select(cc => competitor.First(c => c.Id == cc.CompetitorId)).ToList();
+            return competitors;
         }
     }
 }
