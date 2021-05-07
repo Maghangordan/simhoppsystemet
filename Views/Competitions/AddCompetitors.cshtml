@@ -6,6 +6,42 @@
 <div class="row">
     <div class="col-md-4">
 
+        <h4>Divers</h4>
+        <table class="table"
+            <thead>
+                <tr>
+                    <th>Name
+                    </th>
+                    <th>
+                        Age
+                    </th>
+                    <th>
+                        Organization
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+
+    <tbody>
+
+    @foreach (var std in ViewData["competitorsAdded"] as IList<Competitor>)
+        {
+        <tr>
+            <td>
+                @std.Name
+            </td>
+            <td>
+                @std.Age
+            </td>
+            <td>
+                @std.Organization
+            </td>
+        </tr>
+
+     }
+        </tbody>
+     </table>
 
         <form asp-action="AddCompetitors">
             <div class="form-group">

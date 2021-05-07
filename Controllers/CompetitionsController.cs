@@ -53,7 +53,7 @@ namespace simhoppsystemet.Controllers
                 return NotFound();
             }
 
-            IList<Competitor> competitors = GetCompetitors(competition);
+            IList<Competitor> competitors = GetCompetitors(id);
             ViewData["competitors"] = competitors;
 
             //Här kommer jag skriva in en fullständigt sjuk sql-query some löser alla världsproblem
@@ -65,9 +65,9 @@ namespace simhoppsystemet.Controllers
         }
 
         //Returns competitor list from a competition
-        private IList<Competitor> GetCompetitors(Competition competition)
+        private IList<Competitor> GetCompetitors(int? id)
         {
-            IList<CompetitionCompetitor> competitioncompetitors = _context.CompetitionCompetitor.Where(j => j.CompetitionId == competition.Id).ToList();
+            IList<CompetitionCompetitor> competitioncompetitors = _context.CompetitionCompetitor.Where(j => j.CompetitionId == id).ToList();
             IList<Competitor> competitor = _context.Competitor.ToList(); //Full list of all competitors
             IList<Competitor> competitors = new List<Competitor>(); //Empty list with loads of space and potential!
 
@@ -98,13 +98,17 @@ namespace simhoppsystemet.Controllers
 
                 _context.Add(competition);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("AddCompetitors", new { id = competition.Id });
             }
             return View(competition);
         }
         //---------------------------------------------------------
         public async Task<IActionResult> AddCompetitors(int? id)
         {
+
+            IList<Competitor> competitors = GetCompetitors(id);
+            ViewData["competitorsAdded"] = competitors;
+
             ViewData["competitors"] = new SelectList(_context.Competitor, "Id", "Name");
             TempData["CompetitionId"] = id; //Used to smuggle data to AddCompetitors below
             var competition = await _context.Competition.FindAsync(id);

@@ -24,19 +24,6 @@
             </div>
 
             <div class="form-group">
-
-                @foreach (var std in ViewData["competitors"] as IList<Competitor>)
-                {
-                    <li>
-                        <label asp-for="CompetitionCompetitor"> @std.Name</label>
-                        <input type="checkbox" />
-                    </li>
-                }
-            </div>
-
-
-
-            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
