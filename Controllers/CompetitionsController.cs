@@ -93,35 +93,71 @@ namespace simhoppsystemet.Controllers
             return View(competition);
         }
         //---------------------------------------------------------
+
+        // ----- *** FUNCTIONALITY FOR ADD AND DELETE COMPETITORS *** ----
+
+        //GET: Competitions/AddCompetitors/5
         public async Task<IActionResult> AddCompetitors(int? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
             IList<Competitor> competitors = GetCompetitors(id);
-            ViewData["competitorsAdded"] = competitors;
+            ViewData["competitorsAdded"] = competitors; //The competitors that are in the current competition
 
-            ViewData["competitors"] = new SelectList(_context.Competitor, "Id", "Name");
+            ViewData["competitors"] = new SelectList(_context.Competitor, "Id", "Name"); //All the competitors
             TempData["CompetitionId"] = id; //Used to smuggle data to AddCompetitors below
             var competition = await _context.Competition.FindAsync(id);
             return View(competition);
         }
+
+        //POST: Competitions/AddCompetitors/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddCompetitors(int CompetitorName)
         {
-            int competeId = (int)TempData["CompetitionId"];
+            int competitionId = (int)TempData["CompetitionId"];
 
             CompetitionCompetitor newLink = new CompetitionCompetitor
             {
-                CompetitionId = competeId,
+                CompetitionId = competitionId,
                 CompetitorId = CompetitorName
-
             };
 
-            _context.CompetitionCompetitor.Add(newLink);
+            await _context.CompetitionCompetitor.AddAsync(newLink);
             _context.SaveChanges();
 
             return RedirectToAction("AddCompetitors");
         }
+
+        public async Task<IActionResult> DeleteCompetitor(int? id)
+        {
+            var competition = await _context.Competition.FindAsync(id);
+
+            return View("AddCompetitors", id);
+        }
+
+
+        //POST Competitions/DeleteCompetitor
+        [HttpPost, ActionName("DeleteCompetitor")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteCompetitor(CompetitionCompetitor comp)
+        {
+            var Link = await _context.CompetitionCompetitor.FindAsync(comp.CompetitionCompetitorId);
+            if (Link == null)
+            {
+                return NotFound();
+            }
+
+            _context.CompetitionCompetitor.Remove(Link);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("addCompetitors");
+        }
+
+
         //--------------------------------------------------------
         // GET: Competitions/Edit/5
         public async Task<IActionResult> Edit(int? id)
