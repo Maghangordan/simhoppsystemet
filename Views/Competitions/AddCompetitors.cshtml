@@ -1,13 +1,10 @@
 ﻿@model simhoppsystemet.Models.Competition
 
 
-<h4>Competitor</h4>
+<h4>Add new competitors</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-
-        <h4>Divers</h4>
-        <table class="table"
+        <h4>Current Divers</h4>
+        <table class="table">
             <thead>
                 <tr>
                     <th>Name
@@ -19,7 +16,6 @@
                         Organization
                     </th>
 
-                    <th></th>
                 </tr>
             </thead>
 
@@ -38,7 +34,6 @@
                 @std.Organization
             </td>
         </tr>
-
      }
         </tbody>
      </table>
@@ -56,8 +51,6 @@
             </div>
 
         </form>
-    </div>
-</div>
 
 <div>
     <a asp-action="Index">Back to List</a>
