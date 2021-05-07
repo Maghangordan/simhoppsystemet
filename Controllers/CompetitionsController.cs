@@ -112,7 +112,7 @@ namespace simhoppsystemet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddCompetitors(int CompetitorName)
         {
-            int competeId = (int)TempData["CompetitionId"];
+            int competitionId = (int)TempData["CompetitionId"];
             
             var newLink = new CompetitionCompetitor
             {
