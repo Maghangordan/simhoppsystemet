@@ -43,31 +43,40 @@
                 </tr>
             </thead>
 
-    <tbody>
+            <tbody>
 
-    @foreach (var std in ViewData["competitors"] as IList<Competitor>)
-        {
-        <tr>
-            <td>
-                @std.Name
-            </td>
-            <td>
-                @std.Age
-            </td>
-            <td>
-                @std.Organization
-            </td>
+                @foreach (var std in ViewData["competitors"] as IList<Competitor>)
+                {
+                <tr>
+                    <td>
+                        @std.Name
+                    </td>
+                    <td>
+                        @std.Age
+                    </td>
+                    <td>
+                        @std.Organization
+                    </td>
 
-            @foreach (var dive in ViewData["dives"] as IList<Dive>)
-            {
-                <td>
-                    @dive.DiveGroup
-                </td>
-            }
-        </tr>
+                    @foreach (var dive in ViewData["dives"] as IList<Dive>)         // DESIGN
+                    {
+                        if (std.Id == dive.CompetitorId)
+                        {
+                            <td>
+                            @dive.DiveGroup
+                             </td>
+                        }
 
-     }
-        </tbody>
+
+                    }
+
+                    <td>
+                        <a asp-action="EditDives" asp-route-id="@Model.Id">Edit Dives</a>
+                    </td>
+                </tr>
+                    
+}
+            </tbody>
      </table>
 
 </div>
