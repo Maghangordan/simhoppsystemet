@@ -25,70 +25,93 @@
     </dl>
 </div>
 <div>
-    <h4>Divers</h4>
+    <h4>Competitors</h4>
     <table class="table">
-            <thead>
-                <tr>
-                    <th>Name
-                    </th>
-                    <th>
-                        Age
-                    </th>
-                    <th>
-                        Organization
-                    </th>
-                    <th>
-                        Dives
-                    </th>
-                </tr>
-            </thead>
 
-            <tbody>
+        <tbody>
 
-                @foreach (var std in ViewData["competitors"] as IList<Competitor>)
-                {
+            @foreach (var std in ViewData["competitors"] as IList<Competitor>)
+            {
                 <tr>
-                    <td>
+                    <th>
+                        Name:
                         @std.Name
-                    </td>
-                    <td>
+                    </th>
+                    <th>
+                        Age:
                         @std.Age
-                    </td>
-                    <td>
+                    </th>
+                    <th>
+                        Organization:
                         @std.Organization
-                    </td>
-
-                    @foreach (var dive in ViewData["dives"] as IList<Dive>)         // DESIGN
-                    {
-                        if (std.Id == dive.CompetitorId)
-                        {
-                            <td>
-                            @dive.DiveGroup
-                             </td>
-                        }
-
-
-                    }
+                    </th>
 
                     <td>
                         <a asp-action="EditDives" asp-route-id="@Model.Id">Edit Dives</a>
                     </td>
                 </tr>
-                    
-}
+               
+                <tr>
+                    <td>
+                        Dive
+                    </td>
+                    <td>
+                        Judge A
+                    </td>
+                    <td>
+                        Judge B
+                    </td>
+                    <td>
+                        Judge C
+                    </td>
+                    <td>
+                        Final Score
+                    </td>
+                </tr>
+
+                @foreach (var dive in ViewData["dives"] as IList<Dive>)
+                {
+                    if (std.Id == dive.CompetitorId)
+                    {
+
+                        <tr>
+                            <td>
+                                @dive.DiveGroup
+                            </td>
+                            <td>
+                                @dive.PointsA
+                            </td>
+                            <td>
+                                @dive.PointsB
+                            </td>
+                            <td>
+                                @dive.PointsC
+                            </td>
+                            <td>
+                                @dive.FinalScore
+                            </td>
+                        </tr>
+
+                    }
+
+
+                }
+
+        }
+
             </tbody>
-     </table>
+        </table>
 
-</div>
-<div>
-
-    
     </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit Details</a> |
-    <a asp-action="AddCompetitors" asp-route-id="@Model.Id">Add Competitors</a> |
-    <a asp-action="Index">Back to List</a>
+    <div>
+
+
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit Details</a> |
+        <a asp-action="AddCompetitors" asp-route-id="@Model.Id">Add Competitors</a> |
+        <a asp-action="Index">Back to List</a>
 
 
 
-</div>
+    </div>
