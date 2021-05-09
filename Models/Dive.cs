@@ -13,7 +13,7 @@ namespace simhoppsystemet.Models
         public Competition Competition { get; set; } //1-N
         public int CompetitorId { get; set; }
         public Competitor Competitor { get; set; } //1-N
-        public int DiveGroup { get; set; }
+        public string DiveGroup { get; set; }
         public double PointsA { get; set; }
         public double PointsB { get; set; }
         public double PointsC { get; set; }
