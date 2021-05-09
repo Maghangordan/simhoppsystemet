@@ -88,7 +88,7 @@ namespace simhoppsystemet.Controllers
         }
         //---------------------------------------------------------
 
-        // ----- *** FUNCTIONALITY FOR ADD AND DELETE COMPETITORS *** ----
+        // ----- *** FUNCTIONALITY FOR ADD AND DELETE COMPETITORS FROM SPECIFIC COMPETITION *** ----
 
         //GET: Competitions/AddCompetitors/5
         public async Task<IActionResult> AddCompetitors(int? id)
@@ -128,20 +128,15 @@ namespace simhoppsystemet.Controllers
             return RedirectToAction("AddCompetitors");
         }
 
-        public async Task<IActionResult> DeleteCompetitor(int? id)
-        {
-            var competition = await _context.Competition.FindAsync(id);
+    
 
-            return View("AddCompetitors", id);
-        }
-
-
-        //POST Competitions/DeleteCompetitor
+        //POST Competitions/DeleteCompetitor/5
         [HttpPost, ActionName("DeleteCompetitor")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteCompetitor(CompetitionCompetitor comp)
+        public async Task<IActionResult> DeleteCompetitor(int Id)
         {
-            var Link = await _context.CompetitionCompetitor.FindAsync(comp.CompetitionCompetitorId);
+            int competitionId = (int) TempData["CompetitionId"];
+            CompetitionCompetitor Link = _context.CompetitionCompetitor.Where(j => j.CompetitorId == Id).FirstOrDefault(c => c.CompetitionId == competitionId);
             if (Link == null)
             {
                 return NotFound();
@@ -150,7 +145,7 @@ namespace simhoppsystemet.Controllers
             _context.CompetitionCompetitor.Remove(Link);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("addCompetitors");
+            return RedirectToAction("addCompetitors", new { id = competitionId });
         }
 
 

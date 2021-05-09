@@ -10,8 +10,8 @@ using simhoppsystemet.Data;
 namespace simhoppsystemet.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210506111238_freshstartT")]
-    partial class freshstartT
+    [Migration("20210509141429_hello")]
+    partial class hello
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -306,8 +306,8 @@ namespace simhoppsystemet.Migrations
                     b.Property<int>("CompetitorId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DiveGroup")
-                        .HasColumnType("int");
+                    b.Property<string>("DiveGroup")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("FinalScore")
                         .HasColumnType("float");

@@ -1,69 +1,68 @@
-﻿@model simhoppsystemet.Models.Competition
-
-
+﻿
 <h4>Add new competitors</h4>
 <hr />
-        <h4>Current Divers</h4>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name
-                    </th>
-                    <th>
-                        Age
-                    </th>
-                    <th>
-                        Organization
-                    </th>
+<h4>Current Divers</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Age
+            </th>
+            <th>
+                Organization
+            </th>
 
-                </tr>
-            </thead>
+        </tr>
+    </thead>
 
     <tbody>
 
-    @foreach (var std in ViewData["competitorsAdded"] as IList<Competitor>)
+        @foreach (var std in ViewData["competitorsAdded"] as IList<Competitor>)
         {
-        <tr>
-            <td>
-                @std.Name
-            </td>
-            <td>
-                @std.Age
-            </td>
-            <td>
-                @std.Organization
-            </td>
-            <td>
+            <tr>
+                <td>
+                    @std.Name
+                </td>
+                <td>
+                    @std.Age
+                </td>
+                <td>
+                    @std.Organization
+                </td>
+                <td>
+
+                    <form asp-action="DeleteCompetitor">
+
+                        <input type="hidden" name="Id" value="@std.Id" />
+                        <input type="submit" value="Delete" class="btn btn-danger" />
 
 
-                <form asp-action="DeleteCompetitor">
-                    <input type="hidden" asp-for="Id" />
-                    <input type="submit" value="Delete" class="btn btn-danger" /> 
-                </form>
-            </td>
-        </tr>
-     }
-        </tbody>
-     </table>
-
-        <form asp-action="AddCompetitors">
-            <div class="form-group">
-
-                <label for="CompetitorName" class="control-label"></label>
-                <select name="CompetitorName" class="dropdown" asp-items="ViewBag.competitors"></select>
-            </div>
+                    </form>
+                </td>
+            </tr>
+        }
 
 
-            <div class="form-group">
-                <input type="submit" value="Add" class="btn btn-primary" />
-            </div>
+    </tbody>
+</table>
 
-        </form>
+<form asp-action="AddCompetitors">
+    <div class="form-group">
+
+        <label for="CompetitorName" class="control-label"></label>
+        <select name="CompetitorName" class="dropdown" asp-items="ViewBag.competitors"></select>
+    </div>
+
+
+    <div class="form-group">
+        <input type="submit" value="Add" class="btn btn-primary" />
+    </div>
+
+</form>
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
