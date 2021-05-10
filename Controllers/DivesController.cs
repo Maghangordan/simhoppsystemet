@@ -148,9 +148,9 @@ namespace simhoppsystemet.Controllers
 
             //Iterates over the list of dives and adds the scores together
             double? FinalScore = 0;
-            for (int i = 0; i < 5; i++)
+            foreach (var dive in dives)
             {
-                FinalScore += (double?)dives[i].Score;
+                FinalScore += (double?)dive.Score;
             }
 
             //Displays final score

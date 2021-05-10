@@ -159,8 +159,17 @@ namespace simhoppsystemet.Controllers
             {
                 return NotFound();
             }
-
             _context.CompetitionCompetitor.Remove(Link);
+
+            
+            //Rensa bort dives för den tävlande
+            List<Dive> dives = await _context.Dive.Where(j => j.CompetitorId == Id && j.CompetitionId == competitionId).ToListAsync();
+            foreach (var dive in dives)
+            {
+                _context.Dive.Remove(dive);
+            }
+
+            
             await _context.SaveChangesAsync();
 
             return RedirectToAction("addCompetitors", new { id = competitionId });
