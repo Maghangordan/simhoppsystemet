@@ -252,6 +252,9 @@ namespace simhoppsystemet.Migrations
                     b.Property<int>("CompetitorId")
                         .HasColumnType("int");
 
+                    b.Property<int>("FinalScore")
+                        .HasColumnType("int");
+
                     b.HasKey("CompetitionCompetitorId");
 
                     b.HasIndex("CompetitionId");
@@ -307,9 +310,6 @@ namespace simhoppsystemet.Migrations
                     b.Property<string>("DiveGroup")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("FinalScore")
-                        .HasColumnType("float");
-
                     b.Property<double>("PointsA")
                         .HasColumnType("float");
 
@@ -317,6 +317,9 @@ namespace simhoppsystemet.Migrations
                         .HasColumnType("float");
 
                     b.Property<double>("PointsC")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Score")
                         .HasColumnType("float");
 
                     b.HasKey("Id");

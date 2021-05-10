@@ -17,8 +17,6 @@ namespace simhoppsystemet.Models
         public double PointsA { get; set; }
         public double PointsB { get; set; }
         public double PointsC { get; set; }
-        public double FinalScore { get; set; }
-        
-        
+        public double Score { get; set; }
     }
 }

@@ -40,6 +40,7 @@ namespace simhoppsystemet.Models
         public Competition Competition { get; set; }
         public int CompetitorId { get; set; }
         public Competitor Competitor { get; set; }
+        public int FinalScore { get; set; }
     }
     
 }
