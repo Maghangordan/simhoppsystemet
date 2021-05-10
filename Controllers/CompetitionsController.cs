@@ -90,13 +90,6 @@ namespace simhoppsystemet.Controllers
             return View(competition);
         }
 
-        public async Task<IActionResult> JudgeDive(int CompetitorId, int CompetitionId)
-        {
-            ViewData["competitorId"] = CompetitorId;
-            ViewData["competitionId"] = CompetitionId;
-
-            return View("../Dives/JudgeDive", await _context.Dive.ToListAsync());
-        }
 
         // ------------------ ADD/DELETE COMPETITORS ------------------------------------------- //
 

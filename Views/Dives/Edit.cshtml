@@ -13,16 +13,9 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="CompetitionId" class="control-label"></label>
-                <select asp-for="CompetitionId" class="form-control" asp-items="ViewBag.CompetitionId"></select>
-                <span asp-validation-for="CompetitionId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CompetitorId" class="control-label"></label>
-                <select asp-for="CompetitorId" class="form-control" asp-items="ViewBag.CompetitorId"></select>
-                <span asp-validation-for="CompetitorId" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="CompetitorId" />
+            <input type="hidden" asp-for="CompetitionId" />
+
             <div class="form-group">
                 <label asp-for="DiveGroup" class="control-label"></label>
                 <input asp-for="DiveGroup" class="form-control" />

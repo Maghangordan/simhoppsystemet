@@ -95,7 +95,7 @@ namespace simhoppsystemet.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CompetitionId,CompetitorId,DiveGroup,PointsA,PointsB,PointsC,FinalScore")] Dive dive)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CompetitionId,CompetitorId,DiveGroup,PointsA,PointsB,PointsC")] Dive dive)
         {
             if (id != dive.Id)
             {
@@ -106,6 +106,9 @@ namespace simhoppsystemet.Controllers
             {
                 try
                 {
+                    dive.Score = dive.PointsA + dive.PointsB + dive.PointsC;
+
+
                     _context.Update(dive);
                     await _context.SaveChangesAsync();
                 }
@@ -120,11 +123,44 @@ namespace simhoppsystemet.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return RedirectToAction("JudgeDive", new { CompetitorId = dive.CompetitorId, CompetitionId = dive.CompetitionId} );
             }
             ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
             ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);
+
             return View(dive);
+        }
+
+
+        // GET: Dives/JudgeDive/5
+        public async Task<IActionResult> JudgeDive(int CompetitorId, int CompetitionId)
+        {
+            ViewData["competitorId"] = CompetitorId;
+            ViewData["competitionId"] = CompetitionId;
+
+            //Returns the link
+            CompetitionCompetitor link = await _context.CompetitionCompetitor.Where(cc => cc.CompetitionId == CompetitionId && cc.CompetitorId == CompetitorId).FirstAsync();
+
+            //Returns list of dives for this link
+            List<Dive> dives = await _context.Dive.Where(cc => cc.CompetitionId == CompetitionId && cc.CompetitorId == CompetitorId).ToListAsync();
+
+
+            //Iterates over the list of dives and adds the scores together
+            double? FinalScore = 0;
+            for (int i = 0; i < 5; i++)
+            {
+                FinalScore += (double?)dives[i].Score;
+            }
+
+            //Displays final score
+            ViewData["FinalScore"] = FinalScore;
+
+            //Updates the final score to the database
+            link.FinalScore = FinalScore;
+            _context.CompetitionCompetitor.Update(link);
+
+            return View("JudgeDive", await _context.Dive.ToListAsync());
         }
 
         // GET: Dives/Delete/5
