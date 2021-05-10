@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace simhoppsystemet.Migrations
 {
-    public partial class changeofscores : Migration
+    public partial class hello : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

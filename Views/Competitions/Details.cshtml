@@ -54,7 +54,11 @@
                     </th>
 
                     <td>
-                        <a asp-action="EditDives" asp-route-id="@Model.Id">Judge Dives</a>
+                        <form asp-action="JudgeDive">
+                            <input type="hidden" asp-for="@std.Id" name="CompetitorId" />
+                            <input type="hidden" asp-for="Id" name="CompetitionId" /> 
+                            <input type="submit" value="Judge" class="btn btn-danger" /> 
+                        </form>
                     </td>
                 </tr>
 

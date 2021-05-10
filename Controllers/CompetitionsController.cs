@@ -26,6 +26,8 @@ namespace simhoppsystemet.Controllers
             return View(await _context.Competition.ToListAsync());
         }
 
+        // ------------------------- SEARCH -----------------------------------------//
+
         // GET: Competitions/ShowSearchForm
         public async Task<IActionResult> ShowSearchForm()
         {
@@ -36,7 +38,10 @@ namespace simhoppsystemet.Controllers
         {
             return View("Index", await _context.Competition.Where( j=> j.Name.Contains(SearchPhrase)).ToListAsync());
         }
-        // GET: Competitions/Details/5
+
+        // ----------------------- DETAILS -------------------------------------- //
+        
+        // GET: Competitions/Details/5 
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,15 +50,13 @@ namespace simhoppsystemet.Controllers
             }
             
             var competition = await _context.Competition
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (competition == null)
-            {
-                return NotFound();
-            }
+                .FirstOrDefaultAsync(m => m.Id == id);   if (competition == null) { return NotFound(); }
+
+
             IList<Competitor> competitors = GetCompetitors(id);
             ViewData["competitors"] = competitors;
-            //Här kommer jag skriva in en fullständigt sjuk sql-query some löser alla världsproblem
-            //Just nu så visar den samtliga dyk för alla deltagare. Inge bra.
+
+
             IList<Dive> diveList = _context.Dive.Where(j=>j.CompetitionId==competition.Id).ToList();
             ViewData["dives"] = diveList;
 
@@ -86,9 +89,16 @@ namespace simhoppsystemet.Controllers
             }
             return View(competition);
         }
-        //---------------------------------------------------------
 
-        // ----- *** FUNCTIONALITY FOR ADD AND DELETE COMPETITORS FROM SPECIFIC COMPETITION *** ----
+        public async Task<IActionResult> JudgeDive(int CompetitorId, int CompetitionId)
+        {
+            ViewData["competitorId"] = CompetitorId;
+            ViewData["competitionId"] = CompetitionId;
+
+            return View("../Dives/JudgeDive", await _context.Dive.ToListAsync());
+        }
+
+        // ------------------ ADD/DELETE COMPETITORS ------------------------------------------- //
 
         //GET: Competitions/AddCompetitors/5
         public async Task<IActionResult> AddCompetitors(int? id)
@@ -119,12 +129,27 @@ namespace simhoppsystemet.Controllers
                 CompetitionId = competitionId,
                 CompetitorId = CompetitorName
             };
-            if(!_context.CompetitionCompetitor.Any(cc=>cc.CompetitorId==newLink.CompetitorId && cc.CompetitionId==newLink.CompetitionId))
+           
+
+            if (!_context.CompetitionCompetitor.Any(cc => cc.CompetitorId == newLink.CompetitorId && cc.CompetitionId == newLink.CompetitionId))
             {
                 _context.CompetitionCompetitor.Add(newLink);
-                _context.SaveChanges();
             }
-            
+
+            int DivesToCreate = 5;
+            // Create 5 dives associated to the added competitor
+            for (int i= 0; i < DivesToCreate; i++)
+            {
+                var newDive = new Dive
+                {
+                    CompetitionId = competitionId,
+                    CompetitorId = CompetitorName
+                };
+
+                _context.Dive.Add(newDive);
+            }
+
+            _context.SaveChanges();
             return RedirectToAction("AddCompetitors");
         }
 
@@ -254,6 +279,8 @@ namespace simhoppsystemet.Controllers
             competitors = competitioncompetitors.Select(cc => competitor.First(c => c.Id == cc.CompetitorId)).ToList();
             return competitors;
         }
+
+
         private IList<Competitor> GetCompetitorsNotAdded(int? id) //Return competitors not added to competition
         {
             return _context.Competitor.ToList().Except(GetCompetitors(id)).ToList(); //Competitors not added
