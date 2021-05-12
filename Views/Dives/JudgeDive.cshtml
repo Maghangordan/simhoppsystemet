@@ -2,6 +2,13 @@
 
 <h3>Judge the dives</h3>
 <p>Judge the dive. Each judge enter their score and afterwards the score of the specific dive will be calculated in the correct way.</p>
+@foreach (var std in ViewData["competitorName"] as IList<Competitor>)
+{
+    <p>
+        @std.Name
+    </p>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -24,36 +31,36 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model)
-{
-    @if (item.CompetitorId == ViewBag.CompetitorId && item.CompetitionId == ViewBag.CompetitionId)
-    {
+        @foreach (var item in Model)
+        {
+            @if (item.CompetitorId == ViewBag.CompetitorId && item.CompetitionId == ViewBag.CompetitionId)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DiveGroup)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PointsA)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PointsB)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PointsC)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Score)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiveGroup)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PointsA)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PointsB)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PointsC)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Score)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+            Final Score: @ViewBag.FinalScore
         </tr>
-    }
-}
-    <tr>
-        Final Score: @ViewBag.FinalScore
-    </tr>
-</tbody>
+    </tbody>
 </table>

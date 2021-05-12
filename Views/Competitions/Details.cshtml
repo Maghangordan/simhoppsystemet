@@ -34,20 +34,21 @@
 
             @foreach (var std in ViewData["competitors"] as IList<Competitor>)
             {
-                <tr>
-                    <th>
-                        Name:
-                        @std.Name
-                    </th>
-                    <th>
-                        Age:
-                        @std.Age
-                    </th>
-                    <th>
-                        Organization:
-                        @std.Organization
-                    </th>
-
+            <tr>
+                <th>
+                    Name:
+                    @std.Name
+                </th>
+                <th>
+                    Age:
+                    @std.Age
+                </th>
+                <th>
+                    Organization:
+                    @std.Organization
+                </th>
+                @if (SignInManager.IsSignedIn(User))
+                {
                     <td>
                         <form asp-controller="Dives" asp-action="JudgeDive">
                             <input type="hidden" asp-for="@std.Id" name="CompetitorId" />
@@ -55,7 +56,8 @@
                             <input type="submit" value="Judge" class="btn btn-danger" />
                         </form>
                     </td>
-                </tr>
+                }
+            </tr>
 
                 <tr>
                     <td>
