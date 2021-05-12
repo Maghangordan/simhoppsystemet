@@ -14,9 +14,9 @@ namespace simhoppsystemet.Models
         public int CompetitorId { get; set; }
         public Competitor Competitor { get; set; } //1-N
         public string DiveGroup { get; set; }
-        public double? JudgeA { get; set; }
-        public double? JudgeB { get; set; }
-        public double? JudgeC { get; set; }
+        public double? Judge1 { get; set; }
+        public double? Judge2 { get; set; }
+        public double? Judge3 { get; set; }
         public double? Score { get; set; }
     }
 }
