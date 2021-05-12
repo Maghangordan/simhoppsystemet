@@ -59,7 +59,7 @@ namespace simhoppsystemet.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CompetitionId,CompetitorId,DiveGroup,PointsA,PointsB,PointsC,FinalScore")] Dive dive)
+        public async Task<IActionResult> Create([Bind("Id,CompetitionId,CompetitorId,DiveGroup,JudgeA,JudgeB,JudgeC,FinalScore")] Dive dive)
         {
             if (ModelState.IsValid)
             {
@@ -95,7 +95,7 @@ namespace simhoppsystemet.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CompetitionId,CompetitorId,DiveGroup,PointsA,PointsB,PointsC")] Dive dive)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CompetitionId,CompetitorId,DiveGroup,JudgeA,JudgeB,JudgeC")] Dive dive)
         {
             if (id != dive.Id)
             {
@@ -106,7 +106,7 @@ namespace simhoppsystemet.Controllers
             {
                 try
                 {
-                    dive.Score = dive.PointsA + dive.PointsB + dive.PointsC;
+                    dive.Score = dive.JudgeA + dive.JudgeB + dive.JudgeC;
 
 
                     _context.Update(dive);
