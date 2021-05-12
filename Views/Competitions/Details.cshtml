@@ -1,4 +1,7 @@
-﻿@model simhoppsystemet.Models.Competition
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model simhoppsystemet.Models.Competition
 
 @{
     ViewData["Title"] = "Competition details";
@@ -15,8 +18,11 @@
 </div>
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit competition details</a> |
-    <a asp-action="AddCompetitors" asp-route-id="@Model.Id">Add/Edit competitors</a> |
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit competition details</a> <text>|</text>
+        <a asp-action="AddCompetitors" asp-route-id="@Model.Id"> Add / Edit competitors</a> <text>|</text>
+    }
     <a asp-action="Index">Back to List</a>
 </div>
 
@@ -45,8 +51,8 @@
                     <td>
                         <form asp-controller="Dives" asp-action="JudgeDive">
                             <input type="hidden" asp-for="@std.Id" name="CompetitorId" />
-                            <input type="hidden" asp-for="Id" name="CompetitionId" /> 
-                            <input type="submit" value="Judge" class="btn btn-danger" /> 
+                            <input type="hidden" asp-for="Id" name="CompetitionId" />
+                            <input type="submit" value="Judge" class="btn btn-danger" />
                         </form>
                     </td>
                 </tr>
