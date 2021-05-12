@@ -27,7 +27,9 @@
         {
             <tr>
                 <td>
-                    @std.Name
+                    <a asp-controller="Competitors" asp-action="Edit" asp-route-id="@std.Id">
+                        @Html.DisplayFor(modelItem => @std.Name)
+                    </a>
                 </td>
                 <td>
                     @std.Age

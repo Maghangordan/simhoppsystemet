@@ -31,7 +31,9 @@
                 <tr>
                     <th>
                         Name:
-                        @std.Name
+                        <a asp-controller="Competitors" asp-action="Details" asp-route-id="@std.Id">
+                            @Html.DisplayFor(modelItem => @std.Name)
+                        </a>
                     </th>
                     <th>
                         Age:
