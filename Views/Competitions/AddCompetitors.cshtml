@@ -20,7 +20,7 @@
 
     <tbody>
 
-        @foreach (var std in ViewData["competitorsAdded"] as IList<Competitor>)
+        @foreach (var std in ViewBag.CompetitorsAdded as IList<Competitor>)
         {
             <tr>
                 <td>
@@ -37,6 +37,7 @@
                     <form asp-action="DeleteCompetitor">
 
                         <input type="hidden" name="Id" value="@std.Id" />
+
                         <input type="submit" value="Delete" class="btn btn-danger" />
 
 

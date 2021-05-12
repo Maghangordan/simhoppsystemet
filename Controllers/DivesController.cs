@@ -138,6 +138,8 @@ namespace simhoppsystemet.Controllers
         {
             ViewData["competitorId"] = CompetitorId;
             ViewData["competitionId"] = CompetitionId;
+            ViewData["Name"] = CompetitionId;//WIP
+
 
             //Returns the link
             CompetitionCompetitor link = await _context.CompetitionCompetitor.Where(cc => cc.CompetitionId == CompetitionId && cc.CompetitorId == CompetitorId).FirstAsync();
