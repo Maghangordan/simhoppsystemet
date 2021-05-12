@@ -1,12 +1,11 @@
 ﻿@model simhoppsystemet.Models.Dive
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit dive";
 }
 
-<h1>Edit</h1>
-
-<h4>Dive</h4>
+<h3>Edit dive</h3>
+<p>Enter which dive the competitior will perform:</p>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -18,38 +17,23 @@
 
             <div class="form-group">
                 <label asp-for="DiveGroup" class="control-label"></label>
-                <input asp-for="DiveGroup" class="form-control" />
-                <span asp-validation-for="DiveGroup" class="text-danger"></span>
+                <select name="DiveGroup" class="dropdown" asp-items="ViewBag.divecategories"></select>
             </div>
-            <div class="form-group">
-                <label asp-for="Judge1" class="control-label"></label>
-                <input asp-for="Judge1" class="form-control" />
-                <span asp-validation-for="Judge1" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Judge2" class="control-label"></label>
-                <input asp-for="Judge2" class="form-control" />
-                <span asp-validation-for="Judge2" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Judge3" class="control-label"></label>
-                <input asp-for="Judge3" class="form-control" />
-                <span asp-validation-for="Judge3" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Score" class="control-label"></label>
-                <input asp-for="Score" class="form-control" />
-                <span asp-validation-for="Score" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="Judge1" />
+            <input type="hidden" asp-for="Judge2" />
+            <input type="hidden" asp-for="Judge3" />
+            <input type="hidden" asp-for="Score" />
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
+
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Competitions" asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
