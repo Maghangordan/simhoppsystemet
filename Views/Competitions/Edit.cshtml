@@ -1,15 +1,12 @@
 ﻿@model simhoppsystemet.Models.Competition
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit competition";
 }
 @using static simhoppsystemet.Models.Competitor;
 
 
-
-<h1>Edit</h1>
-
-<h4>Competition</h4>
+<h4>Edit competition - @Html.DisplayFor(model => model.Name)</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">

@@ -1,33 +1,22 @@
 ﻿@model simhoppsystemet.Models.Competition
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Competition details";
 }
 
-<h1>Details</h1>
-
 <div>
-    <h4>Competition</h4>
+    <h4>Competition - @Html.DisplayFor(model => model.Name)</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+        <dd class="col-sm-2">
+            Date: @Html.DisplayFor(model => model.Date)
         </dd>
     </dl>
 </div>
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit Details</a> |
-    <a asp-action="AddCompetitors" asp-route-id="@Model.Id">Edit Competitors</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit competition details</a> |
+    <a asp-action="AddCompetitors" asp-route-id="@Model.Id">Add/Edit competitors</a> |
     <a asp-action="Index">Back to List</a>
 </div>
 
