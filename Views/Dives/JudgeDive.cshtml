@@ -1,8 +1,7 @@
 ﻿@model IEnumerable<simhoppsystemet.Models.Dive>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h3>Judge the dives</h3>
+<p>Judge the dive. Each judge enter their score and afterwards the score of the specific dive will be calculated in the correct way.</p>
 <table class="table">
     <thead>
         <tr>
@@ -10,13 +9,13 @@
                 @Html.DisplayNameFor(model => model.DiveGroup)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PointsA)
+                Judge A
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PointsB)
+                Judge B
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PointsC)
+                Judge C
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Score)
@@ -34,13 +33,13 @@
                 @Html.DisplayFor(modelItem => item.DiveGroup)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PointsA)
+                @Html.DisplayFor(modelItem => item.Judge1)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PointsB)
+                @Html.DisplayFor(modelItem => item.Judge2)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PointsC)
+                @Html.DisplayFor(modelItem => item.Judge3)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Score)
