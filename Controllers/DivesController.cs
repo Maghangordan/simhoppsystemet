@@ -103,12 +103,20 @@ namespace simhoppsystemet.Controllers
                 return NotFound();
             }
 
+            DiveGroup link = await _context.DiveGroup.Where(cc => cc.Dive == dive.DiveGroup).FirstAsync();
+            float? diff = link.Difficulty;
             if (ModelState.IsValid)
             {
                 try
                 {
-                    dive.Score = dive.Judge1 + dive.Judge2 + dive.Judge3;
+                    if ((dive.Judge1 < dive.Judge2 && dive.Judge2 < dive.Judge3) || (dive.Judge3 < dive.Judge2 && dive.Judge2 < dive.Judge1))
+                        dive.Score = dive.Judge2 * diff;
 
+                    else if ((dive.Judge2 < dive.Judge1 && dive.Judge1 < dive.Judge3) || (dive.Judge3 < dive.Judge1 && dive.Judge1 < dive.Judge2))
+                        dive.Score = dive.Judge1 * diff;
+
+                    else
+                        dive.Score = dive.Judge3 * diff;
 
                     _context.Update(dive);
                     await _context.SaveChangesAsync();
@@ -125,7 +133,7 @@ namespace simhoppsystemet.Controllers
                     }
                 }
 
-                return RedirectToAction("JudgeDive", new { CompetitorId = dive.CompetitorId, CompetitionId = dive.CompetitionId} );
+                return RedirectToAction("JudgeDive", new { CompetitorId = dive.CompetitorId, CompetitionId = dive.CompetitionId });
             }
             ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
             ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);
@@ -165,11 +173,20 @@ namespace simhoppsystemet.Controllers
                 return NotFound();
             }
 
+            DiveGroup link = await _context.DiveGroup.Where(cc => cc.Dive == dive.DiveGroup).FirstAsync();
+            float? diff = link.Difficulty;
             if (ModelState.IsValid)
             {
                 try
                 {
-                    dive.Score = dive.Judge1 + dive.Judge2 + dive.Judge3;
+                    if ((dive.Judge1 < dive.Judge2 && dive.Judge2 < dive.Judge3) || (dive.Judge3 < dive.Judge2 && dive.Judge2 < dive.Judge1))
+                        dive.Score = dive.Judge2 * diff;
+
+                    else if ((dive.Judge2 < dive.Judge1 && dive.Judge1 < dive.Judge3) || (dive.Judge3 < dive.Judge1 && dive.Judge1 < dive.Judge2))
+                        dive.Score = dive.Judge1 * diff;
+
+                    else
+                        dive.Score = dive.Judge3 * diff;
 
 
                     _context.Update(dive);
