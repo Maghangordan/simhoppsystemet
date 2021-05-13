@@ -2,14 +2,14 @@
 
 namespace simhoppsystemet.Migrations
 {
-    public partial class hello7 : Migration
+    public partial class Dive1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<double>(
-                name: "FinalScore",
-                table: "CompetitionCompetitor",
-                nullable: true,
+            migrationBuilder.AlterColumn<float>(
+                name: "Difficulty",
+                table: "DiveGroup",
+                nullable: false,
                 oldClrType: typeof(double),
                 oldType: "float");
         }
@@ -17,12 +17,11 @@ namespace simhoppsystemet.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<double>(
-                name: "FinalScore",
-                table: "CompetitionCompetitor",
+                name: "Difficulty",
+                table: "DiveGroup",
                 type: "float",
                 nullable: false,
-                oldClrType: typeof(double),
-                oldNullable: true);
+                oldClrType: typeof(float));
         }
     }
 }
