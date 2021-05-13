@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace simhoppsystemet.Migrations
 {
-    public partial class initial : Migration
+    public partial class hello : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -190,7 +190,7 @@ namespace simhoppsystemet.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CompetitionId = table.Column<int>(nullable: false),
                     CompetitorId = table.Column<int>(nullable: false),
-                    FinalScore = table.Column<double>(nullable: true)
+                    FinalScore = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -218,10 +218,10 @@ namespace simhoppsystemet.Migrations
                     CompetitionId = table.Column<int>(nullable: false),
                     CompetitorId = table.Column<int>(nullable: false),
                     DiveGroup = table.Column<string>(nullable: true),
-                    Judge1 = table.Column<double>(nullable: true),
-                    Judge2 = table.Column<double>(nullable: true),
-                    Judge3 = table.Column<double>(nullable: true),
-                    Score = table.Column<double>(nullable: true)
+                    PointsA = table.Column<double>(nullable: false),
+                    PointsB = table.Column<double>(nullable: false),
+                    PointsC = table.Column<double>(nullable: false),
+                    Score = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -10,8 +10,8 @@ using simhoppsystemet.Data;
 namespace simhoppsystemet.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210512143130_Dive1")]
-    partial class Dive1
+    [Migration("20210510133752_hello7")]
+    partial class hello7
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -312,13 +312,13 @@ namespace simhoppsystemet.Migrations
                     b.Property<string>("DiveGroup")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("Judge1")
+                    b.Property<double?>("PointsA")
                         .HasColumnType("float");
 
-                    b.Property<double?>("Judge2")
+                    b.Property<double?>("PointsB")
                         .HasColumnType("float");
 
-                    b.Property<double?>("Judge3")
+                    b.Property<double?>("PointsC")
                         .HasColumnType("float");
 
                     b.Property<double?>("Score")
@@ -331,24 +331,6 @@ namespace simhoppsystemet.Migrations
                     b.HasIndex("CompetitorId");
 
                     b.ToTable("Dive");
-                });
-
-            modelBuilder.Entity("simhoppsystemet.Models.DiveGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<float>("Difficulty")
-                        .HasColumnType("real");
-
-                    b.Property<string>("Dive")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DiveGroup");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
