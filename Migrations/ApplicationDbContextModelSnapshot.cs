@@ -310,13 +310,13 @@ namespace simhoppsystemet.Migrations
                     b.Property<string>("DiveGroup")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("PointsA")
+                    b.Property<double?>("Judge1")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PointsB")
+                    b.Property<double?>("Judge2")
                         .HasColumnType("float");
 
-                    b.Property<double?>("PointsC")
+                    b.Property<double?>("Judge3")
                         .HasColumnType("float");
 
                     b.Property<double?>("Score")

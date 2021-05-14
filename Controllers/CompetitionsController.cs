@@ -142,7 +142,7 @@ namespace simhoppsystemet.Controllers
                 _context.Dive.Add(newDive);
             }
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return RedirectToAction("AddCompetitors");
         }
 
