@@ -87,7 +87,10 @@ namespace simhoppsystemet.Controllers
             }
             ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
             ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);
+
+            // Gets all of the divecategories and outs them in a list
             ViewData["divecategories"] = new SelectList(_context.DiveGroup, "Dive", "Dive", dive.DiveGroup);
+
             return View(dive);
         }
 
@@ -103,8 +106,12 @@ namespace simhoppsystemet.Controllers
                 return NotFound();
             }
 
+            // Searches through the DB for the match where the divegroups match. The DiveGroup which match are put in a variable
             DiveGroup link = await _context.DiveGroup.Where(cc => cc.Dive == dive.DiveGroup).FirstAsync();
-            float? diff = link.Difficulty;
+            float? diff = link.Difficulty; //Gets the difficulty from the variable that matched the dive
+
+            // Checks the median of all dives and takes the difficulty and multiplies it to the median score
+            // E.g: If J1 < J2 and J2 < J3 OR J3 < J2  and J2 < J1, then J2 is the median
             if (ModelState.IsValid)
             {
                 try
@@ -137,6 +144,8 @@ namespace simhoppsystemet.Controllers
             }
             ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
             ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);
+
+            // Gets all of the divecategories and outs them in a list
             ViewData["divecategories"] = new SelectList(_context.DiveGroup, "Dive", "Dive", dive.DiveGroup);
 
             return View(dive);
@@ -157,7 +166,9 @@ namespace simhoppsystemet.Controllers
             }
             ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
             ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);
-            ViewData["divecategories"] = new SelectList(_context.DiveGroup, "Dive", "Dive", dive.DiveGroup);
+
+            // Gets all of the divecategories and outs them in a list
+            ViewData["divecategories"] = new SelectList(_context.DiveGroup, "Dive", "Dive", dive.DiveGroup);  
             return View(dive);
         }
 
@@ -173,8 +184,12 @@ namespace simhoppsystemet.Controllers
                 return NotFound();
             }
 
+            // Searches through the DB for the match where the divegroups match. The DiveGroup which match are put in a variable
             DiveGroup link = await _context.DiveGroup.Where(cc => cc.Dive == dive.DiveGroup).FirstAsync();
-            float? diff = link.Difficulty;
+            float? diff = link.Difficulty; //Gets the difficulty from the variable that matched the dive
+
+            // Checks the median of all dives and takes the difficulty and multiplies it to the median score
+            // E.g: If J1 < J2 and J2 < J3 OR J3 < J2  and J2 < J1, then J2 is the median
             if (ModelState.IsValid)
             {
                 try
@@ -208,6 +223,8 @@ namespace simhoppsystemet.Controllers
             }
             ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
             ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);
+
+            // Gets all of the divecategories and outs them in a list
             ViewData["divecategories"] = new SelectList(_context.DiveGroup, "Dive", "Dive", dive.DiveGroup);
 
             return View(dive);
