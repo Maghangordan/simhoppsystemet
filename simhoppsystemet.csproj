@@ -7,9 +7,13 @@
 
   <ItemGroup>
     <Compile Remove="Data\Migrations\**" />
+    <Compile Remove="simhoppsystemet.UnitTests\**" />
     <Content Remove="Data\Migrations\**" />
+    <Content Remove="simhoppsystemet.UnitTests\**" />
     <EmbeddedResource Remove="Data\Migrations\**" />
+    <EmbeddedResource Remove="simhoppsystemet.UnitTests\**" />
     <None Remove="Data\Migrations\**" />
+    <None Remove="simhoppsystemet.UnitTests\**" />
   </ItemGroup>
 
   <ItemGroup>
