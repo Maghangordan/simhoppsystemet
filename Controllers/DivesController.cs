@@ -87,6 +87,7 @@ namespace simhoppsystemet.Controllers
             }
             ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
             ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);
+            ViewData["divecategories"] = new SelectList(_context.DiveGroup, "Dive", "Dive", dive.DiveGroup);
             return View(dive);
         }
 
@@ -102,11 +103,90 @@ namespace simhoppsystemet.Controllers
                 return NotFound();
             }
 
+            DiveGroup link = await _context.DiveGroup.Where(cc => cc.Dive == dive.DiveGroup).FirstAsync();
+            float? diff = link.Difficulty;
             if (ModelState.IsValid)
             {
                 try
                 {
-                    dive.Score = dive.Judge1 + dive.Judge2 + dive.Judge3;
+                    if ((dive.Judge1 < dive.Judge2 && dive.Judge2 < dive.Judge3) || (dive.Judge3 < dive.Judge2 && dive.Judge2 < dive.Judge1))
+                        dive.Score = dive.Judge2 * diff;
+
+                    else if ((dive.Judge2 < dive.Judge1 && dive.Judge1 < dive.Judge3) || (dive.Judge3 < dive.Judge1 && dive.Judge1 < dive.Judge2))
+                        dive.Score = dive.Judge1 * diff;
+
+                    else
+                        dive.Score = dive.Judge3 * diff;
+
+                    _context.Update(dive);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!DiveExists(dive.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return RedirectToAction("JudgeDive", new { CompetitorId = dive.CompetitorId, CompetitionId = dive.CompetitionId });
+            }
+            ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
+            ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);
+            ViewData["divecategories"] = new SelectList(_context.DiveGroup, "Dive", "Dive", dive.DiveGroup);
+
+            return View(dive);
+        }
+
+        // GET: Dives/Edit/5
+        public async Task<IActionResult> JudgeView(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var dive = await _context.Dive.FindAsync(id);
+            if (dive == null)
+            {
+                return NotFound();
+            }
+            ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
+            ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);
+            ViewData["divecategories"] = new SelectList(_context.DiveGroup, "Dive", "Dive", dive.DiveGroup);
+            return View(dive);
+        }
+
+        // POST: Dives/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> JudgeView(int id, [Bind("Judge1,Judge2,Judge3")] Dive dive)
+        {
+            if (id != dive.Id)
+            {
+                return NotFound();
+            }
+
+            DiveGroup link = await _context.DiveGroup.Where(cc => cc.Dive == dive.DiveGroup).FirstAsync();
+            float? diff = link.Difficulty;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if ((dive.Judge1 < dive.Judge2 && dive.Judge2 < dive.Judge3) || (dive.Judge3 < dive.Judge2 && dive.Judge2 < dive.Judge1))
+                        dive.Score = dive.Judge2 * diff;
+
+                    else if ((dive.Judge2 < dive.Judge1 && dive.Judge1 < dive.Judge3) || (dive.Judge3 < dive.Judge1 && dive.Judge1 < dive.Judge2))
+                        dive.Score = dive.Judge1 * diff;
+
+                    else
+                        dive.Score = dive.Judge3 * diff;
 
 
                     _context.Update(dive);
@@ -124,10 +204,11 @@ namespace simhoppsystemet.Controllers
                     }
                 }
 
-                return RedirectToAction("JudgeDive", new { CompetitorId = dive.CompetitorId, CompetitionId = dive.CompetitionId} );
+                return RedirectToAction("JudgeDive", new { CompetitorId = dive.CompetitorId, CompetitionId = dive.CompetitionId });
             }
             ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
             ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);
+            ViewData["divecategories"] = new SelectList(_context.DiveGroup, "Dive", "Dive", dive.DiveGroup);
 
             return View(dive);
         }

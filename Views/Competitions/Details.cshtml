@@ -25,81 +25,79 @@
     <table class="table">
 
         <tbody>
-
             @foreach (var std in ViewData["competitors"] as IList<Competitor>)
+        {
+            <tr>
+                <th>
+                    Name:
+                    <a asp-controller="Competitors" asp-action="Details" asp-route-id="@std.Id">
+                        @Html.DisplayFor(modelItem => @std.Name)
+                    </a>
+                </th>
+                <th>
+                    Age:
+                    @std.Age
+                </th>
+                <th>
+                    Organization:
+                    @std.Organization
+                </th>
+                
+                <td>
+                    <form asp-controller="Dives" asp-action="JudgeDive">
+                        <input type="hidden" asp-for="@std.Id" name="CompetitorId" />
+                        <input type="hidden" asp-for="Id" name="CompetitionId" />
+                        <input type="submit" value="Judge" class="btn btn-danger" />
+                    </form>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Dive
+                </td>
+                <td>
+                    Judge A
+                </td>
+                <td>
+                    Judge B
+                </td>
+                <td>
+                    Judge C
+                </td>
+                <td>
+                    Score
+                </td>
+            </tr>
+
+            @foreach (var dive in ViewData["dives"] as IList<Dive>)
             {
-                <tr>
-                    <th>
-                        Name:
-                        <a asp-controller="Competitors" asp-action="Details" asp-route-id="@std.Id">
-                            @Html.DisplayFor(modelItem => @std.Name)
-                        </a>
-                    </th>
-                    <th>
-                        Age:
-                        @std.Age
-                    </th>
-                    <th>
-                        Organization:
-                        @std.Organization
-                    </th>
-
-                    <td>
-                        <form asp-controller="Dives" asp-action="JudgeDive">
-                            <input type="hidden" asp-for="@std.Id" name="CompetitorId" />
-                            <input type="hidden" asp-for="Id" name="CompetitionId" /> 
-                            <input type="submit" value="Judge" class="btn btn-danger" /> 
-                        </form>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        Dive
-                    </td>
-                    <td>
-                        Judge A
-                    </td>
-                    <td>
-                        Judge B
-                    </td>
-                    <td>
-                        Judge C
-                    </td>
-                    <td>
-                        Score
-                    </td>
-                </tr>
-
-                @foreach (var dive in ViewData["dives"] as IList<Dive>)
+                if (std.Id == dive.CompetitorId)
                 {
-                    if (std.Id == dive.CompetitorId)
-                    {
 
-                        <tr>
-                            <td>
-                                @dive.DiveGroup
-                            </td>
-                            <td>
-                                @dive.Judge1
-                            </td>
-                            <td>
-                                @dive.Judge2
-                            </td>
-                            <td>
-                                @dive.Judge3
-                            </td>
-                            <td>
-                                @dive.Score
-                            </td>
-                        </tr>
-
-                    }
-
+                    <tr>
+                        <td>
+                            @dive.DiveGroup
+                        </td>
+                        <td>
+                            @dive.Judge1
+                        </td>
+                        <td>
+                            @dive.Judge2
+                        </td>
+                        <td>
+                            @dive.Judge3
+                        </td>
+                        <td>
+                            @dive.Score
+                        </td>
+                    </tr>
 
                 }
 
+
             }
+        }
 
         </tbody>
     </table>
