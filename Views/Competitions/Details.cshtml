@@ -36,8 +36,9 @@
             {
             <tr>
                 <th>
-                    Name:
-                    @std.Name
+                    <a asp-controller="Competitors" asp-action="Details" asp-route-id="@std.Id">
+                        @Html.DisplayFor(modelItem => @std.Name)
+                    </a>
                 </th>
                 <th>
                     Age:
@@ -87,13 +88,13 @@
                                 @dive.DiveGroup
                             </td>
                             <td>
-                                @dive.PointsA
+                                @dive.Judge1
                             </td>
                             <td>
-                                @dive.PointsB
+                                @dive.Judge2
                             </td>
                             <td>
-                                @dive.PointsC
+                                @dive.Judge3
                             </td>
                             <td>
                                 @dive.Score
