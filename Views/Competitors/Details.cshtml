@@ -1,4 +1,7 @@
-﻿@model simhoppsystemet.Models.Competitor
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model simhoppsystemet.Models.Competitor
 
 @{
     ViewData["Title"] = "Competitior details";
@@ -32,7 +35,7 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Organization)
         </dd>
-        
+
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Dives)
         </dt>
@@ -49,6 +52,9 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> <text>|</text>
+    }
     <a asp-action="Index">Back to List</a>
 </div>

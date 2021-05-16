@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -65,6 +66,7 @@ namespace simhoppsystemet.Controllers
 
 
         // GET: Competitions/Create
+        [Authorize]
         public IActionResult Create()
         {
             IList<Competitor> competitorList = _context.Competitor.ToList();
@@ -75,6 +77,7 @@ namespace simhoppsystemet.Controllers
         // POST: Competitions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id, Date, Name")] Competition competition)
@@ -94,6 +97,7 @@ namespace simhoppsystemet.Controllers
         // ------------------ ADD/DELETE COMPETITORS ------------------------------------------- //
 
         //GET: Competitions/AddCompetitors/5
+        [Authorize]
         public async Task<IActionResult> AddCompetitors(int? id)
         {
             if (id == null)
@@ -111,6 +115,7 @@ namespace simhoppsystemet.Controllers
         }
 
         //POST: Competitions/AddCompetitors/5
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddCompetitors(int CompetitorName)
@@ -146,9 +151,10 @@ namespace simhoppsystemet.Controllers
             return RedirectToAction("AddCompetitors");
         }
 
-    
+
 
         //POST Competitions/DeleteCompetitor/5
+        [Authorize]
         [HttpPost, ActionName("DeleteCompetitor")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteCompetitor(int Id)
@@ -178,6 +184,7 @@ namespace simhoppsystemet.Controllers
 
         //--------------------------------------------------------
         // GET: Competitions/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -200,6 +207,7 @@ namespace simhoppsystemet.Controllers
         // POST: Competitions/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Name")] Competition competition)
@@ -233,6 +241,7 @@ namespace simhoppsystemet.Controllers
         }
 
         // GET: Competitions/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -251,6 +260,7 @@ namespace simhoppsystemet.Controllers
         }
 
         // POST: Competitions/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -272,6 +282,7 @@ namespace simhoppsystemet.Controllers
 
 
         //Returns competitor list from a competition
+        [Authorize]
         private IList<Competitor> GetCompetitors(int? id)
         {
             IList<CompetitionCompetitor> competitioncompetitors = _context.CompetitionCompetitor.Where(j => j.CompetitionId == id).ToList();

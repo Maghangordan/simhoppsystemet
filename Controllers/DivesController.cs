@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using simhoppsystemet.Models;
 
 namespace simhoppsystemet.Controllers
 {
+    [Authorize]
     public class DivesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -244,6 +246,8 @@ namespace simhoppsystemet.Controllers
 
             //Returns list of dives for this link
             List<Dive> dives = await _context.Dive.Where(cc => cc.CompetitionId == CompetitionId && cc.CompetitorId == CompetitorId).ToListAsync();
+            List<Competitor> divers = _context.Competitor.Where(d => d.Id == CompetitorId).ToList(); // Creates a list with all competitor data to smuggle to the view later
+            ViewData["competitorName"] = divers;
 
 
             //Iterates over the list of dives and adds the scores together

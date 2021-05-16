@@ -1,4 +1,7 @@
-﻿@model IEnumerable<simhoppsystemet.Models.Competitor>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model IEnumerable<simhoppsystemet.Models.Competitor>
 
 @{
     ViewData["Title"] = "Competitiors";
@@ -6,9 +9,12 @@
 
 <h1>Competitors</h1>
 <p>Here's an list of all competitors. Just click on a competitors name to get to know the person more!</p>
+@if (SignInManager.IsSignedIn(User))
+{
 <p>
     <a asp-action="Create">Create a new competitor</a>
 </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -24,12 +30,13 @@
             <th>
                 @Html.DisplayNameFor(model => model.Organization)
             </th>
-            
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Age)
@@ -45,12 +52,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Organization)
             </td>
-            
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            }
         </tr>
-}
+        }
     </tbody>
 </table>
