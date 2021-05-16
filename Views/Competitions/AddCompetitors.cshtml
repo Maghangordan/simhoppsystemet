@@ -23,11 +23,13 @@
 
     <tbody>
 
-        @foreach (var std in ViewData["competitorsAdded"] as IList<Competitor>)
+        @foreach (var std in ViewBag.CompetitorsAdded as IList<Competitor>)
         {
             <tr>
                 <td>
-                    @std.Name
+                    <a asp-controller="Competitors" asp-action="Edit" asp-route-id="@std.Id">
+                        @Html.DisplayFor(modelItem => @std.Name)
+                    </a>
                 </td>
                 <td>
                     @std.Age
@@ -40,6 +42,7 @@
                     <form asp-action="DeleteCompetitor">
 
                         <input type="hidden" name="Id" value="@std.Id" />
+
                         <input type="submit" value="Delete" class="btn btn-danger" />
 
 

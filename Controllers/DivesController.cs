@@ -61,7 +61,7 @@ namespace simhoppsystemet.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CompetitionId,CompetitorId,DiveGroup,PointsA,PointsB,PointsC,FinalScore")] Dive dive)
+        public async Task<IActionResult> Create([Bind("Id,CompetitionId,CompetitorId,DiveGroup,Judge1,Judge2,Judge3,FinalScore")] Dive dive)
         {
             if (ModelState.IsValid)
             {
@@ -89,6 +89,10 @@ namespace simhoppsystemet.Controllers
             }
             ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
             ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);
+
+            // Gets all of the divecategories and outs them in a list
+            ViewData["divecategories"] = new SelectList(_context.DiveGroup, "Dive", "Dive", dive.DiveGroup);
+
             return View(dive);
         }
 
@@ -97,18 +101,109 @@ namespace simhoppsystemet.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CompetitionId,CompetitorId,DiveGroup,PointsA,PointsB,PointsC")] Dive dive)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CompetitionId,CompetitorId,DiveGroup,Judge1,Judge2,Judge3")] Dive dive)
         {
             if (id != dive.Id)
             {
                 return NotFound();
             }
 
+            // Searches through the DB for the match where the divegroups match. The DiveGroup which match are put in a variable
+            DiveGroup link = await _context.DiveGroup.Where(cc => cc.Dive == dive.DiveGroup).FirstAsync();
+            float? diff = link.Difficulty; //Gets the difficulty from the variable that matched the dive
+
+            // Checks the median of all dives and takes the difficulty and multiplies it to the median score
+            // E.g: If J1 < J2 and J2 < J3 OR J3 < J2  and J2 < J1, then J2 is the median
             if (ModelState.IsValid)
             {
                 try
                 {
-                    dive.Score = dive.PointsA + dive.PointsB + dive.PointsC;
+                    if ((dive.Judge1 < dive.Judge2 && dive.Judge2 < dive.Judge3) || (dive.Judge3 < dive.Judge2 && dive.Judge2 < dive.Judge1))
+                        dive.Score = dive.Judge2 * diff;
+
+                    else if ((dive.Judge2 < dive.Judge1 && dive.Judge1 < dive.Judge3) || (dive.Judge3 < dive.Judge1 && dive.Judge1 < dive.Judge2))
+                        dive.Score = dive.Judge1 * diff;
+
+                    else
+                        dive.Score = dive.Judge3 * diff;
+
+                    _context.Update(dive);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!DiveExists(dive.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return RedirectToAction("JudgeDive", new { CompetitorId = dive.CompetitorId, CompetitionId = dive.CompetitionId });
+            }
+            ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
+            ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);
+
+            // Gets all of the divecategories and outs them in a list
+            ViewData["divecategories"] = new SelectList(_context.DiveGroup, "Dive", "Dive", dive.DiveGroup);
+
+            return View(dive);
+        }
+
+        // GET: Dives/Edit/5
+        public async Task<IActionResult> JudgeView(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var dive = await _context.Dive.FindAsync(id);
+            if (dive == null)
+            {
+                return NotFound();
+            }
+            ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
+            ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);
+
+            // Gets all of the divecategories and outs them in a list
+            ViewData["divecategories"] = new SelectList(_context.DiveGroup, "Dive", "Dive", dive.DiveGroup);  
+            return View(dive);
+        }
+
+        // POST: Dives/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> JudgeView(int id, [Bind("Judge1,Judge2,Judge3")] Dive dive)
+        {
+            if (id != dive.Id)
+            {
+                return NotFound();
+            }
+
+            // Searches through the DB for the match where the divegroups match. The DiveGroup which match are put in a variable
+            DiveGroup link = await _context.DiveGroup.Where(cc => cc.Dive == dive.DiveGroup).FirstAsync();
+            float? diff = link.Difficulty; //Gets the difficulty from the variable that matched the dive
+
+            // Checks the median of all dives and takes the difficulty and multiplies it to the median score
+            // E.g: If J1 < J2 and J2 < J3 OR J3 < J2  and J2 < J1, then J2 is the median
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if ((dive.Judge1 < dive.Judge2 && dive.Judge2 < dive.Judge3) || (dive.Judge3 < dive.Judge2 && dive.Judge2 < dive.Judge1))
+                        dive.Score = dive.Judge2 * diff;
+
+                    else if ((dive.Judge2 < dive.Judge1 && dive.Judge1 < dive.Judge3) || (dive.Judge3 < dive.Judge1 && dive.Judge1 < dive.Judge2))
+                        dive.Score = dive.Judge1 * diff;
+
+                    else
+                        dive.Score = dive.Judge3 * diff;
 
 
                     _context.Update(dive);
@@ -126,10 +221,13 @@ namespace simhoppsystemet.Controllers
                     }
                 }
 
-                return RedirectToAction("JudgeDive", new { CompetitorId = dive.CompetitorId, CompetitionId = dive.CompetitionId} );
+                return RedirectToAction("JudgeDive", new { CompetitorId = dive.CompetitorId, CompetitionId = dive.CompetitionId });
             }
             ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
             ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);
+
+            // Gets all of the divecategories and outs them in a list
+            ViewData["divecategories"] = new SelectList(_context.DiveGroup, "Dive", "Dive", dive.DiveGroup);
 
             return View(dive);
         }
@@ -140,6 +238,8 @@ namespace simhoppsystemet.Controllers
         {
             ViewData["competitorId"] = CompetitorId;
             ViewData["competitionId"] = CompetitionId;
+            ViewData["Name"] = CompetitionId;//WIP
+
 
             //Returns the link
             CompetitionCompetitor link = await _context.CompetitionCompetitor.Where(cc => cc.CompetitionId == CompetitionId && cc.CompetitorId == CompetitorId).FirstAsync();
