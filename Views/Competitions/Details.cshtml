@@ -93,6 +93,10 @@
                                 {
                                     <a asp-controller="Dives" asp-action="Edit" asp-route-id="@dive.Id">Add dive group</a>
                                 }
+                                else if (dive.DiveGroup == null)
+                                {
+                                    <h6>To be decided</h6>
+                                }
 
                                 @dive.DiveGroup
                             </td>
