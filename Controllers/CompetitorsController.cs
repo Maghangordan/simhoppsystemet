@@ -27,6 +27,20 @@ namespace simhoppsystemet.Controllers
             return View(await _context.Competitor.ToListAsync());
         }
 
+
+        // ------------------------- SEARCH -----------------------------------------//
+
+        // GET: Competitions/ShowSearchForm
+        public async Task<IActionResult> ShowSearchForm()
+        {
+            return View();
+        }
+        // POST: Competitions/ShowSearchResult
+        public async Task<IActionResult> ShowSearchResults(string SearchPhrase)
+        {
+            return View("SearchResult", await _context.Competitor.Where(j => j.Name.Contains(SearchPhrase)).ToListAsync());
+        }
+
         // GET: Competitors/Details/5
         public async Task<IActionResult> Details(int? id)
         {
