@@ -88,6 +88,12 @@
 
                         <tr>
                             <td>
+                                <!--Mer tydligt att man behöver lägga till dive group-->
+                                @if (SignInManager.IsSignedIn(User) && dive.DiveGroup == null)
+                                {
+                                    <a asp-controller="Dives" asp-action="Edit" asp-route-id="@dive.Id">Add dive group</a>
+                                }
+
                                 @dive.DiveGroup
                             </td>
                             <td>
