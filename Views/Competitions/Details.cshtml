@@ -26,114 +26,103 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-<div>
-    <h4>Competitors</h4>
-    <table class="table">
+<br />
+<h4>Competitors</h4>
 
+@foreach (var std in ViewData["competitors"] as IList<Competitor>)
+{
+<h5>
+    <br />
+    <a asp-controller="Competitors" asp-action="Details" asp-route-id="@std.Id">
+        @Html.DisplayFor(modelItem => @std.Name)
+    </a>
+    &nbsp;
+    (@(DateTime.Now.Year-std.Age))
+    &nbsp;
+    @std.Organization
+</h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Dive
+                </th>
+                <th>
+                    Difficulty
+                </th>
+                <th>
+                    Judge 1
+                </th>
+                <th>
+                    Judge 2
+                </th>
+                <th>
+                    Judge 3
+                </th>
+                <th>
+                    Score
+                </th>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <th>
+                        <form asp-controller="Dives" asp-action="JudgeDives">
+                            <input type="hidden" asp-for="@std.Id" name="CompetitorId" />
+                            <input type="hidden" asp-for="Id" name="CompetitionId" />
+                            <input type="submit" value="Judge" class="btn btn-danger" style="float: right" />
+                        </form>
+                    </th>
+                }
+            </tr>
+        </thead>
         <tbody>
 
-            @foreach (var std in ViewData["competitors"] as IList<Competitor>)
+            @foreach (var dive in ViewData["dives"] as IList<Dive>)
             {
-                <tr>
-                    <th>
-                        <a asp-controller="Competitors" asp-action="Details" asp-route-id="@std.Id">
-                            @Html.DisplayFor(modelItem => @std.Name)
-                        </a>
-                    </th>
-                    <th>
-                        Age:
-                        @std.Age
-                    </th>
-                    <th>
-                        Organization:
-                        @std.Organization
-                    </th>
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                        <td>
-                            <form asp-controller="Dives" asp-action="JudgeDives">
-                                <input type="hidden" asp-for="@std.Id" name="CompetitorId" />
-                                <input type="hidden" asp-for="Id" name="CompetitionId" />
-                                <input type="submit" value="Judge" class="btn btn-danger" />
-                            </form>
-                        </td>
-                    }
-                </tr>
-
-                <tr>
-                    <td>
-                        Dive
-                    </td>
-                    <td>
-                        Difficulty
-                    </td>
-                    <td>
-                        Judge A
-                    </td>
-                    <td>
-                        Judge B
-                    </td>
-                    <td>
-                        Judge C
-                    </td>
-                    <td>
-                        Score
-                    </td>
-                </tr>
-
-                @foreach (var dive in ViewData["dives"] as IList<Dive>)
+                if (std.Id == dive.CompetitorId)
                 {
-                    if (std.Id == dive.CompetitorId)
-                    {
 
-                        <tr>
-                            <td>
-                                <!--Mer tydligt att man behöver lägga till dive group-->
-                                @if (SignInManager.IsSignedIn(User) && dive.DiveGroup == null)
+                    <tr>
+                        <td>
+                            <!--Mer tydligt att man behöver lägga till dive group-->
+                            @if (SignInManager.IsSignedIn(User) && dive.DiveGroup == null)
+                            {
+                                <a asp-controller="Dives" asp-action="Edit" asp-route-id="@dive.Id">Add dive group</a>
+                            }
+
+                            @dive.DiveGroup
+                        </td>
+                        <td>
+                            @foreach (var diff in ViewData["divedifficulty"] as IList<DiveGroup>)
+                            {
+                                if (dive.DiveGroup == diff.Dive)
                                 {
-                                    <a asp-controller="Dives" asp-action="Edit" asp-route-id="@dive.Id">Add dive group</a>
+                                    @diff.Difficulty
                                 }
-
-                                @dive.DiveGroup
-                            </td>
-                            <td>
-                                @foreach (var diff in ViewData["divedifficulty"] as IList<DiveGroup>)
-                                {
-                                    if (dive.DiveGroup == diff.Dive)
-                                    {
-                                        @diff.Difficulty
-                                    }
-                                }
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => dive.Judge2)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => dive.Judge2)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => dive.Judge3)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => dive.Score)
-                            </td>
-                            <td>
-                                @if (SignInManager.IsSignedIn(User))
-                                {
-                                    <a asp-controller="Dives" asp-action="Edit" asp-route-id="@dive.Id">Edit dive</a>
-                                }
-                            </td>
-
-                        </tr>
-
-                    }
-
-
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => dive.Judge2)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => dive.Judge2)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => dive.Judge3)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => dive.Score)
+                        </td>
+                        <td>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <a asp-controller="Dives" asp-action="Edit" asp-route-id="@dive.Id" style="float: right">Edit dive</a>
+                            }
+                        </td>
+                    </tr>
                 }
-
             }
-
         </tbody>
     </table>
 
-</div>
+}
+
