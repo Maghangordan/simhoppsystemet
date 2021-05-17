@@ -65,6 +65,9 @@
                         Dive
                     </td>
                     <td>
+                        Difficulty
+                    </td>
+                    <td>
                         Judge A
                     </td>
                     <td>
@@ -88,6 +91,15 @@
                                 @dive.DiveGroup
                             </td>
                             <td>
+                                @foreach (var diff in ViewData["divedifficulty"] as IList<DiveGroup>)
+                                {
+                                    if (dive.DiveGroup == diff.Dive)
+                                    {
+                                        @diff.Difficulty
+                                    }
+                                }
+                            </td>
+                            <td>
                                 @Html.DisplayFor(modelItem => dive.Judge2)
                             </td>
                             <td>
@@ -104,7 +116,7 @@
                                 {
                                     <a asp-controller="Dives" asp-action="Edit" asp-route-id="@dive.Id">Edit dive</a>
                                 }
-                                </td>
+                            </td>
 
                         </tr>
 

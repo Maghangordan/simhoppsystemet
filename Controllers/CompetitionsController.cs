@@ -61,6 +61,9 @@ namespace simhoppsystemet.Controllers
             IList<Dive> diveList = _context.Dive.Where(j=>j.CompetitionId==competition.Id).ToList();
             ViewData["dives"] = diveList;
 
+
+            ViewData["divedifficulty"] = _context.DiveGroup.ToList(); //Full list of all Divegroups
+
             return View(competition);
         }
 

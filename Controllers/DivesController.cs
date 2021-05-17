@@ -250,6 +250,8 @@ namespace simhoppsystemet.Controllers
             Competition divecomp = _context.Competition.Where(c => c.Id == CompetitionId).First(); // Rturns the competition
             ViewData["competitionName"] = divecomp.Name;
 
+            ViewData["divedifficulty"] = _context.DiveGroup.ToList(); //Full list of all Divegroups
+
 
             //Iterates over the list of dives and adds the scores together
             double? FinalScore = 0;
