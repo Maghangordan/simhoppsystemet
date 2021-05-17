@@ -2,10 +2,18 @@
 
 <h3>Judge the dives</h3>
 <p>Judge the dive. Each judge enter their score and afterwards the score of the specific dive will be calculated in the correct way.</p>
+<h5>Judging dive for:</h5>
 @foreach (var std in ViewData["competitorName"] as IList<Competitor>)
 {
     <p>
-        @std.Name
+        Name: @std.Name
+    </p>
+}
+
+@foreach (var std in ViewData["competitionName"] as IList<Competition>)
+{
+    <p>
+        Competition: @std.Name
     </p>
 }
 <table class="table">

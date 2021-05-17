@@ -248,6 +248,8 @@ namespace simhoppsystemet.Controllers
             List<Dive> dives = await _context.Dive.Where(cc => cc.CompetitionId == CompetitionId && cc.CompetitorId == CompetitorId).ToListAsync();
             List<Competitor> divers = _context.Competitor.Where(d => d.Id == CompetitorId).ToList(); // Creates a list with all competitor data to smuggle to the view later
             ViewData["competitorName"] = divers;
+            List<Competition> divecomp = _context.Competition.Where(c => c.Id == CompetitionId).ToList(); // Creates a list that matches competition to smuggle to the view later
+            ViewData["competitionName"] = divecomp;
 
 
             //Iterates over the list of dives and adds the scores together
