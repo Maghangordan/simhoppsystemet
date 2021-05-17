@@ -110,7 +110,7 @@ namespace simhoppsystemet.Controllers
 
             // Searches through the DB for the match where the divegroups match. The DiveGroup which match are put in a variable
             DiveGroup link = await _context.DiveGroup.Where(cc => cc.Dive == dive.DiveGroup).FirstAsync();
-            float? diff = link.Difficulty; //Gets the difficulty from the variable that matched the dive
+            double? diff = link.Difficulty; //Gets the difficulty from the variable that matched the dive
 
             // Checks the median of all dives and takes the difficulty and multiplies it to the median score
             // E.g: If J1 < J2 and J2 < J3 OR J3 < J2  and J2 < J1, then J2 is the median
@@ -188,7 +188,7 @@ namespace simhoppsystemet.Controllers
 
             // Searches through the DB for the match where the divegroups match. The DiveGroup which match are put in a variable
             DiveGroup link = await _context.DiveGroup.Where(cc => cc.Dive == dive.DiveGroup).FirstAsync();
-            float? diff = link.Difficulty; //Gets the difficulty from the variable that matched the dive
+            double? diff = link.Difficulty; //Gets the difficulty from the variable that matched the dive
 
             // Checks the median of all dives and takes the difficulty and multiplies it to the median score
             // E.g: If J1 < J2 and J2 < J3 OR J3 < J2  and J2 < J1, then J2 is the median

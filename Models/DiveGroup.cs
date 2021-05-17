@@ -12,6 +12,6 @@ namespace simhoppsystemet.Models
         public int Id { get; set; }
         public string Dive { get; set; }
         [Required]
-        public float Difficulty { get; set; }
+        public double Difficulty { get; set; }
     }
 }
