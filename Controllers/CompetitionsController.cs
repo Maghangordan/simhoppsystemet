@@ -37,7 +37,7 @@ namespace simhoppsystemet.Controllers
         // POST: Competitions/ShowSearchResult
         public async Task<IActionResult> ShowSearchResults(string SearchPhrase)
         {
-            return View("Index", await _context.Competition.Where(j => j.Name.Contains(SearchPhrase)).ToListAsync());
+            return View("SearchResult", await _context.Competition.Where(j => j.Name.Contains(SearchPhrase)).ToListAsync());
         }
 
         // ----------------------- DETAILS -------------------------------------- //

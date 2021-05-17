@@ -4,20 +4,17 @@
 @model IEnumerable<simhoppsystemet.Models.Competition>
 
 @{
-    ViewData["Title"] = "Competitions";
+    ViewData["Title"] = "Search - Competitions";
 }
 
-<h1>Competitions</h1>
-<p>Here's an list of previous and upcoming competitions.</p>
+<h1>Search results</h1>
+<p>Competitions that contains the phrase that were searched for:</p>
 @if (SignInManager.IsSignedIn(User))
 {
     <p>
         <a asp-action="Create">Create a new competition</a>
     </p>
 }
-<form asp-action="ShowSearchForm">
-    <input type="submit" value="Search competition" class="btn btn-primary" /> 
-</form>
 
 <br />
 <table class="table">
