@@ -142,7 +142,7 @@ namespace simhoppsystemet.Controllers
                     }
                 }
 
-                return RedirectToAction("JudgeDive", new { CompetitorId = dive.CompetitorId, CompetitionId = dive.CompetitionId });
+                return RedirectToAction("Details", "Competitions", new { id = dive.CompetitionId });
             }
             ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
             ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);

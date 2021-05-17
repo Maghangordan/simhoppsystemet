@@ -59,13 +59,16 @@
                         @Html.DisplayFor(modelItem => item.Score)
                     </td>
                     <td>
-                        <a asp-action="JudgeView" asp-route-id="@item.Id">Judge dives</a>
+                        <a asp-action="JudgeView" asp-route-id="@item.Id" class="btn btn-primary">Judge dive</a>
                     </td>
                 </tr>
             }
         }
-        <tr>
-            Final Score: @ViewBag.FinalScore
-        </tr>
+
+
     </tbody>
+    <!--Försöker få denna att visas sist. Ej lyckats än!-->
+    <div class="align-items-end">
+        Final Score: @ViewBag.FinalScore
+    </div>
 </table>

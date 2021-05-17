@@ -338,7 +338,7 @@ namespace simhoppsystemet.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<float?>("Difficulty")
+                    b.Property<float>("Difficulty")
                         .HasColumnType("real");
 
                     b.Property<string>("Dive")
