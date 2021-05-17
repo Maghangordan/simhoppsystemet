@@ -310,17 +310,17 @@ namespace simhoppsystemet.Migrations
                     b.Property<string>("DiveGroup")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float?>("Judge1")
-                        .HasColumnType("real");
+                    b.Property<double?>("Judge1")
+                        .HasColumnType("float");
 
-                    b.Property<float?>("Judge2")
-                        .HasColumnType("real");
+                    b.Property<double?>("Judge2")
+                        .HasColumnType("float");
 
-                    b.Property<float?>("Judge3")
-                        .HasColumnType("real");
+                    b.Property<double?>("Judge3")
+                        .HasColumnType("float");
 
-                    b.Property<float?>("Score")
-                        .HasColumnType("real");
+                    b.Property<double?>("Score")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -338,8 +338,8 @@ namespace simhoppsystemet.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<float?>("Difficulty")
-                        .HasColumnType("real");
+                    b.Property<double>("Difficulty")
+                        .HasColumnType("float");
 
                     b.Property<string>("Dive")
                         .HasColumnType("nvarchar(max)");
