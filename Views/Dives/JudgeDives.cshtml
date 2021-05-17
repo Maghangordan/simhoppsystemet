@@ -10,7 +10,6 @@
 <p>
     <a asp-controller="Competitions" asp-action="Details" asp-route-id="@ViewData["competitionId"]" class="btn btn-primary">Go Back</a>
 </p>
-<h6>Make sure before you judge that there is an divegroup given for the specific dive.</h6>
 <table class="table">
     <thead>
         <tr>
@@ -42,8 +41,12 @@
             {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.DiveGroup)
-            </td>
+                @if (item.DiveGroup == null)
+                {
+                <h6>Need to add DiveGroup to be able to judge this dive</h6>
+                }
+                    @Html.DisplayFor(modelItem => item.DiveGroup)
+                </td>
             <td>
                 @foreach (var diff in ViewData["divedifficulty"] as IList<DiveGroup>)
                 {
@@ -66,7 +69,10 @@
                 @Html.DisplayFor(modelItem => item.Score)
             </td>
             <td>
-                <a asp-action="JudgeView" asp-route-id="@item.Id" class="btn btn-primary">Judge dive</a>
+                @if (item.DiveGroup != null)
+                {
+                    <a asp-action="JudgeView" asp-route-id="@item.Id" class="btn btn-primary">Judge dive</a>
+                }
             </td>
         </tr>
             }
