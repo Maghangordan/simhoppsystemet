@@ -88,16 +88,16 @@
                                 @dive.DiveGroup
                             </td>
                             <td>
-                                @dive.Judge1
+                                @Html.DisplayFor(modelItem => dive.Judge2)
                             </td>
                             <td>
-                                @dive.Judge2
+                                @Html.DisplayFor(modelItem => dive.Judge2)
                             </td>
                             <td>
-                                @dive.Judge3
+                                @Html.DisplayFor(modelItem => dive.Judge3)
                             </td>
                             <td>
-                                @dive.Score
+                                @Html.DisplayFor(modelItem => dive.Score)
                             </td>
                             <td>
                             <a asp-controller="Dives" asp-action="Edit" asp-route-id="@dive.Id">Edit dive</a>

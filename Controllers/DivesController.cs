@@ -150,7 +150,7 @@ namespace simhoppsystemet.Controllers
             // Gets all of the divecategories and outs them in a list
             ViewData["divecategories"] = new SelectList(_context.DiveGroup, "Dive", "Dive", dive.DiveGroup);
 
-            return View(dive);
+            return RedirectToAction("JudgeDive", new { CompetitorId = dive.CompetitorId, CompetitionId = dive.CompetitionId });
         }
 
         // GET: Dives/Edit/5
