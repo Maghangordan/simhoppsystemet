@@ -7,19 +7,29 @@
     ViewData["Title"] = "Competitions";
 }
 
-<h1>Competitions</h1>
+<h1>
+    Competitions
+</h1>
 <p>Here's an list of previous and upcoming competitions.</p>
-@if (SignInManager.IsSignedIn(User))
-{
-    <p>
-        <a asp-action="Create">Create a new competition</a>
-    </p>
-}
-<form asp-action="ShowSearchForm">
-    <input type="submit" value="Search competition" class="btn btn-primary" /> 
-</form>
-
-<br />
+<div class="col-md-13">
+    <form asp-action="ShowSearchResults">
+        <div class="col-md-3">
+            Search for a competition:
+            <label for="SearchPhrase" class="control-label" style="float: left"></label>
+            <input name="SearchPhrase" class="form-control" />
+            <p></p>
+            <input type="submit" value="Search" class="btn btn-primary" style="float: left" />
+        </div>
+        <div class="relative">
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <a asp-action="Create" class="btn btn-primary" style="float: right">Create a new competition</a>
+            }
+        </div>
+    </form>
+    <br />
+</div>
+<p><br /></p>
 <table class="table">
     <thead>
         <tr>

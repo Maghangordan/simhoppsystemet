@@ -9,14 +9,14 @@
 
 <h1>Search results</h1>
 <p>Competitions that contains the phrase that were searched for:</p>
-@if (SignInManager.IsSignedIn(User))
-{
-    <p>
-        <a asp-action="Create">Create a new competition</a>
-    </p>
-}
 
-<br />
+<div class="relative">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <a asp-action="Create" class="btn btn-primary" style="float: right">Create a new competition</a>
+    }
+</div>
+<p><br /></p>
 <table class="table">
     <thead>
         <tr>
