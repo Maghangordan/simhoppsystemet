@@ -221,7 +221,7 @@ namespace simhoppsystemet.Controllers
                     }
                 }
 
-                return RedirectToAction("JudgeDive", new { CompetitorId = dive.CompetitorId, CompetitionId = dive.CompetitionId });
+                return RedirectToAction("JudgeDives", new { dive.CompetitorId, dive.CompetitionId });
             }
             ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
             ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);
@@ -233,23 +233,22 @@ namespace simhoppsystemet.Controllers
         }
 
 
-        // GET: Dives/JudgeDive/5
-        public async Task<IActionResult> JudgeDive(int CompetitorId, int CompetitionId)
+        // GET: Dives/JudgeDives/5
+        public async Task<IActionResult> JudgeDives(int CompetitorId, int CompetitionId)
         {
             ViewData["competitorId"] = CompetitorId;
             ViewData["competitionId"] = CompetitionId;
-            ViewData["Name"] = CompetitionId;//WIP
-
 
             //Returns the link
             CompetitionCompetitor link = await _context.CompetitionCompetitor.Where(cc => cc.CompetitionId == CompetitionId && cc.CompetitorId == CompetitorId).FirstAsync();
 
             //Returns list of dives for this link
             List<Dive> dives = await _context.Dive.Where(cc => cc.CompetitionId == CompetitionId && cc.CompetitorId == CompetitorId).ToListAsync();
-            List<Competitor> divers = _context.Competitor.Where(d => d.Id == CompetitorId).ToList(); // Creates a list with all competitor data to smuggle to the view later
-            ViewData["competitorName"] = divers;
-            List<Competition> divecomp = _context.Competition.Where(c => c.Id == CompetitionId).ToList(); // Creates a list that matches competition to smuggle to the view later
-            ViewData["competitionName"] = divecomp;
+            
+            Competitor divers = _context.Competitor.Where(d => d.Id == CompetitorId).First(); // Returns the competitor
+            ViewData["competitorName"] = divers.Name;
+            Competition divecomp = _context.Competition.Where(c => c.Id == CompetitionId).First(); // Rturns the competition
+            ViewData["competitionName"] = divecomp.Name;
 
 
             //Iterates over the list of dives and adds the scores together
@@ -266,7 +265,7 @@ namespace simhoppsystemet.Controllers
             link.FinalScore = FinalScore;
             _context.CompetitionCompetitor.Update(link);
 
-            return View("JudgeDive", await _context.Dive.ToListAsync());
+            return View("JudgeDives", await _context.Dive.ToListAsync());
         }
 
         // GET: Dives/Delete/5

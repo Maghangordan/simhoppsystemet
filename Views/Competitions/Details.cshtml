@@ -51,7 +51,7 @@
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <td>
-                            <form asp-controller="Dives" asp-action="JudgeDive">
+                            <form asp-controller="Dives" asp-action="JudgeDives">
                                 <input type="hidden" asp-for="@std.Id" name="CompetitorId" />
                                 <input type="hidden" asp-for="Id" name="CompetitionId" />
                                 <input type="submit" value="Judge" class="btn btn-danger" />
@@ -100,8 +100,11 @@
                                 @dive.Score
                             </td>
                             <td>
-                            <a asp-controller="Dives" asp-action="Edit" asp-route-id="@dive.Id">Edit dive</a>
-                            </td>
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <a asp-controller="Dives" asp-action="Edit" asp-route-id="@dive.Id">Edit dive</a>
+                                }
+                                </td>
 
                         </tr>
 

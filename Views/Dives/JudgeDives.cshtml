@@ -3,19 +3,15 @@
 <h3>Judge the dives</h3>
 <p>Judge the dive. Each judge enter their score and afterwards the score of the specific dive will be calculated in the correct way.</p>
 <h5>Judging dive for:</h5>
-@foreach (var std in ViewData["competitorName"] as IList<Competitor>)
-{
-    <p>
-        Name: @std.Name
-    </p>
-}
 
-@foreach (var std in ViewData["competitionName"] as IList<Competition>)
-{
-    <p>
-        Competition: @std.Name
-    </p>
-}
+<p> Name: @ViewData["competitorName"] </p>
+
+<p> Competition: @ViewData["competitionName"] </p>
+
+<p>
+    <a asp-controller="Competitions" asp-action="Details" asp-route-id="@ViewData["competitionId"]" class="btn btn-primary">Go Back</a>
+</p>
+
 <table class="table">
     <thead>
         <tr>
@@ -67,8 +63,9 @@
 
 
     </tbody>
-    <!--Försöker få denna att visas sist. Ej lyckats än!-->
-    <div class="align-items-end">
-        Final Score: @ViewBag.FinalScore
-    </div>
 </table>
+
+<!--Nuså, visas den sist!-->
+<div class="align-items-end">
+    Final Score: @ViewBag.FinalScore
+</div>
