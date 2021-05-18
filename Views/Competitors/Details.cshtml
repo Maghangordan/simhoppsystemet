@@ -35,26 +35,41 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Organization)
         </dd>
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Dives)
-        </dt>
-        <dd class="col-sm-10">
-            @foreach (var std in ViewData["dives"] as IList<Dive>)
-            {
-
-                <label asp-for="Dives"> @std.DiveGroup,</label>
-
-
-            }
-        </dd>
-
     </dl>
 </div>
+<table class="table col-sm-4">
+    <thead>
+    <tr>
+    <th>
+        Competitions
+    </th>
+        <th>
+            Date
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var std in ViewData["competitions"] as IList<Competition>)
+            {
+            <tr>
+                <td>
+                    <a asp-action="Details" asp-controller="Competitions" asp-route-id="@std.Id">
+                        @std.Name
+                    </a>
+                </td>
+                <td>
+                    @std.Date
+                </td>
+            </tr>
+
+            }
+    </tbody>
+</table>
+
 <div>
     @if (SignInManager.IsSignedIn(User))
     {
         <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> <text>|</text>
     }
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">To List of all divers</a>
 </div>

@@ -55,10 +55,15 @@ namespace simhoppsystemet.Controllers
             {
                 return NotFound();
             }
-            IList<Dive> diveList = _context.Dive.Where(j=>j.CompetitorId==competitor.Id).ToList();
-            ViewData["dives"] = diveList;
+
+            IList<Competition> competitions = GetCompetitions(id);
+
+            ViewData["competitions"] = competitions;
             return View(competitor);
         }
+  
+
+
 
         // GET: Competitors/Create
         [Authorize]
@@ -173,6 +178,16 @@ namespace simhoppsystemet.Controllers
         private bool CompetitorExists(int id)
         {
             return _context.Competitor.Any(e => e.Id == id);
+        }
+
+        private IList<Competition> GetCompetitions(int? id)
+        {
+            IList<CompetitionCompetitor> competitioncompetitors = _context.CompetitionCompetitor.Where(j => j.CompetitorId == id).ToList();
+            IList<Competition> competition = _context.Competition.ToList(); //Full list of all competitions
+            IList<Competition> competitions = new List<Competition>(); //Empty list with loads of space and potential!
+
+            competitions = competitioncompetitors.Select(cc => competition.First(c => c.Id == cc.CompetitionId)).ToList();
+            return competitions;
         }
     }
 }
