@@ -32,16 +32,23 @@
 
 @foreach (var std in ViewData["competitors"] as IList<Competitor>)
 {
-<h5>
-    <br />
-    <a asp-controller="Competitors" asp-action="Details" asp-route-id="@std.Id">
-        @Html.DisplayFor(modelItem => @std.Name)
-    </a>
-    &nbsp;
-    (@(DateTime.Now.Year-std.Age))
-    &nbsp;
-    @std.Organization
-</h5>
+    <h5>
+        <br />
+        <a asp-controller="Competitors" asp-action="Details" asp-route-id="@std.Id">
+            @Html.DisplayFor(modelItem => @std.Name)
+        </a>
+        &nbsp;
+        (@(DateTime.Now.Year-std.Age))
+        &nbsp;
+        @std.Organization
+    </h5>
+    @foreach (var comp in ViewData["finalscore"] as IList<CompetitionCompetitor>)
+    {
+        if (std.Id == comp.CompetitorId && comp.FinalScore != null)
+        {
+            <h6>Final Score: @comp.FinalScore</h6>
+        }
+    }
     <table class="table">
         <thead>
             <tr>
@@ -87,7 +94,7 @@
                             <!--Mer tydligt att man behöver lägga till dive group-->
                             @if (SignInManager.IsSignedIn(User) && dive.DiveGroup == null)
                             {
-                                <a asp-controller="Dives" asp-action="Edit" asp-route-id="@dive.Id">Add dive group</a> 
+                                <a asp-controller="Dives" asp-action="Edit" asp-route-id="@dive.Id">Add dive group</a>
                             }
                             else if (dive.DiveGroup == null)
                             {

@@ -64,6 +64,11 @@ namespace simhoppsystemet.Controllers
 
             ViewData["divedifficulty"] = _context.DiveGroup.ToList(); //Full list of all Divegroups
 
+
+
+            IList<CompetitionCompetitor> competitioncompetitors = _context.CompetitionCompetitor.Where(c => c.CompetitionId == competition.Id).ToList(); // List to smuggle out finalscore
+            ViewData["finalscore"] = competitioncompetitors;
+
             return View(competition);
         }
 

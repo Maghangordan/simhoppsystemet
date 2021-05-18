@@ -266,6 +266,7 @@ namespace simhoppsystemet.Controllers
             //Updates the final score to the database
             link.FinalScore = FinalScore;
             _context.CompetitionCompetitor.Update(link);
+            await _context.SaveChangesAsync();
 
             return View("JudgeDives", await _context.Dive.ToListAsync());
         }
