@@ -109,9 +109,14 @@ namespace simhoppsystemet.Controllers
             }
 
             IList<Competitor> competitors = GetCompetitors(id);
+            
             ViewData["competitorsAdded"] = competitors; //The competitors that are in the current competition
 
             ViewData["competitors"] = new SelectList(GetCompetitorsNotAdded(id), "Id", "Name"); //Currently shows all
+            if(GetCompetitorsNotAdded(id).Count()==0) //If none available
+            {
+                ViewData["competitors"] = null; //Required for null-check in AddCompetitors-view
+            }
             TempData["CompetitionId"] = id; //Used to smuggle data to AddCompetitors below
             var competition = await _context.Competition.FindAsync(id);
             return View(competition);
