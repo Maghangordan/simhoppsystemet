@@ -21,8 +21,8 @@
             }
             @if (Model.Date == Model.EndDate)
             {
-                <text>Day: </text> @Html.DisplayFor(model => model.Date.DayOfWeek)<br />
-                <text>Date: </text> @Html.DisplayFor(model => model.Date)
+            <text>Day: </text> @Html.DisplayFor(model => model.Date.DayOfWeek)<br />
+            <text>Date: </text> @Html.DisplayFor(model => model.Date)
             }
         </dd>
     </dl>
@@ -38,233 +38,114 @@
 </div>
 
 <br />
-<h4>Female Competitors:</h4>
+<h4>Competitors</h4>
+
 @foreach (var std in ViewData["competitors"] as IList<Competitor>)
 {
-    if (std.Gender == "Female")
+    <h5>
+        <br />
+        <a asp-controller="Competitors" asp-action="Details" asp-route-id="@std.Id">
+            @Html.DisplayFor(modelItem => @std.Name)
+        </a>
+        &nbsp;
+        (@(DateTime.Now.Year-std.Age))
+        &nbsp;
+        @std.Organization
+    </h5>
+    <!-- If there exists a a finalscore, print it out with 2 decimals-->
+    @foreach (var comp in ViewData["finalscore"] as IList<CompetitionCompetitor>)
     {
-        <h5>
-            <br />
-            <a asp-controller="Competitors" asp-action="Details" asp-route-id="@std.Id">
-                @Html.DisplayFor(modelItem => @std.Name)
-            </a>
-            &nbsp;
-            (@(DateTime.Now.Year - std.Age))
-            &nbsp;
-            @std.Organization
-        </h5>
-        <!-- If there exists a a finalscore, print it out with 2 decimals-->
-        @foreach (var comp in ViewData["finalscore"] as IList<CompetitionCompetitor>)
+        if (std.Id == comp.CompetitorId && comp.FinalScore != null)
         {
-            if (std.Id == comp.CompetitorId && comp.FinalScore != null)
-            {
-                <h6>Final Score: @Math.Round((Double)comp.FinalScore, 2)</h6>
-            }
+            <h6>Final Score: @Math.Round((Double)comp.FinalScore, 2)</h6>
         }
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        Dive
-                    </th>
-                    <th>
-                        Difficulty
-                    </th>
-                    <th>
-                        Judge 1
-                    </th>
-                    <th>
-                        Judge 2
-                    </th>
-                    <th>
-                        Judge 3
-                    </th>
-                    <th>
-                        Score
-                    </th>
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                        <th>
-                            <form asp-controller="Dives" asp-action="JudgeDives">
-                                <input type="hidden" asp-for="@std.Id" name="CompetitorId" />
-                                <input type="hidden" asp-for="Id" name="CompetitionId" />
-                                <input type="submit" value="Judge" class="btn btn-danger" style="float: right" />
-                            </form>
-                        </th>
-                    }
-                </tr>
-            </thead>
-            <tbody>
-
-                @foreach (var dive in ViewData["dives"] as IList<Dive>)
-                {
-                    if (std.Id == dive.CompetitorId)
-                    {
-
-                        <tr>
-                            <td>
-                                <!--Mer tydligt att man behöver lägga till dive group-->
-                                @if (SignInManager.IsSignedIn(User) && dive.DiveGroup == null)
-                                {
-                                    <a asp-controller="Dives" asp-action="Edit" asp-route-id="@dive.Id">Add dive group</a>
-                                }
-                                else if (dive.DiveGroup == null)
-                                {
-                                    <h6>To be decided</h6>
-                                }
-
-                                @dive.DiveGroup
-                            </td>
-                            <td>
-                                @foreach (var diff in ViewData["divedifficulty"] as IList<DiveGroup>)
-                                {
-                                    if (dive.DiveGroup == diff.Dive)
-                                    {
-                                        @diff.Difficulty
-                                    }
-                                }
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => dive.Judge1)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => dive.Judge2)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => dive.Judge3)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => dive.Score)
-                            </td>
-                            <td>
-                                @if (SignInManager.IsSignedIn(User))
-                                {
-                                    <a asp-controller="Dives" asp-action="Edit" asp-route-id="@dive.Id" style="float: right">Edit dive</a>
-                                }
-                            </td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
     }
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Dive
+                </th>
+                <th>
+                    Difficulty
+                </th>
+                <th>
+                    Judge 1
+                </th>
+                <th>
+                    Judge 2
+                </th>
+                <th>
+                    Judge 3
+                </th>
+                <th>
+                    Score
+                </th>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <th>
+                        <form asp-controller="Dives" asp-action="JudgeDives">
+                            <input type="hidden" asp-for="@std.Id" name="CompetitorId" />
+                            <input type="hidden" asp-for="Id" name="CompetitionId" />
+                            <input type="submit" value="Judge" class="btn btn-danger" style="float: right" />
+                        </form>
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
 
-}
-<hr size="3" width="100%" color="black">
-<h4>Male Competitors:</h4>
-@foreach (var std in ViewData["competitors"] as IList<Competitor>)
-{
-    if (std.Gender == "Male")
-    {
-        <h5>
-            <br />
-            <a asp-controller="Competitors" asp-action="Details" asp-route-id="@std.Id">
-                @Html.DisplayFor(modelItem => @std.Name)
-            </a>
-            &nbsp;
-            (@(DateTime.Now.Year - std.Age))
-            &nbsp;
-            @std.Organization
-        </h5>
-        <!-- If there exists a a finalscore, print it out with 2 decimals-->
-        @foreach (var comp in ViewData["finalscore"] as IList<CompetitionCompetitor>)
-        {
-            if (std.Id == comp.CompetitorId && comp.FinalScore != null)
+            @foreach (var dive in ViewData["dives"] as IList<Dive>)
             {
-                <h6>Final Score: @Math.Round((Double)comp.FinalScore, 2)</h6>
-            }
-        }
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        Dive
-                    </th>
-                    <th>
-                        Difficulty
-                    </th>
-                    <th>
-                        Judge 1
-                    </th>
-                    <th>
-                        Judge 2
-                    </th>
-                    <th>
-                        Judge 3
-                    </th>
-                    <th>
-                        Score
-                    </th>
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                        <th>
-                            <form asp-controller="Dives" asp-action="JudgeDives">
-                                <input type="hidden" asp-for="@std.Id" name="CompetitorId" />
-                                <input type="hidden" asp-for="Id" name="CompetitionId" />
-                                <input type="submit" value="Judge" class="btn btn-danger" style="float: right" />
-                            </form>
-                        </th>
-                    }
-                </tr>
-            </thead>
-            <tbody>
-
-                @foreach (var dive in ViewData["dives"] as IList<Dive>)
+                if (std.Id == dive.CompetitorId)
                 {
-                    if (std.Id == dive.CompetitorId)
-                    {
 
-                        <tr>
-                            <td>
-                                <!--Mer tydligt att man behöver lägga till dive group-->
-                                @if (SignInManager.IsSignedIn(User) && dive.DiveGroup == null)
-                                {
-                                    <a asp-controller="Dives" asp-action="Edit" asp-route-id="@dive.Id">Add dive group</a>
-                                }
-                                else if (dive.DiveGroup == null)
-                                {
-                                    <h6>To be decided</h6>
-                                }
+                    <tr>
+                        <td>
+                            <!--Mer tydligt att man behöver lägga till dive group-->
+                            @if (SignInManager.IsSignedIn(User) && dive.DiveGroup == null)
+                            {
+                                <a asp-controller="Dives" asp-action="Edit" asp-route-id="@dive.Id">Add dive group</a>
+                            }
+                            else if (dive.DiveGroup == null)
+                            {
+                                <h6>To be decided</h6>
+                            }
 
-                                @dive.DiveGroup
-                            </td>
-                            <td>
-                                @foreach (var diff in ViewData["divedifficulty"] as IList<DiveGroup>)
+                            @dive.DiveGroup
+                        </td>
+                        <td>
+                            @foreach (var diff in ViewData["divedifficulty"] as IList<DiveGroup>)
+                            {
+                                if (dive.DiveGroup == diff.Dive)
                                 {
-                                    if (dive.DiveGroup == diff.Dive)
-                                    {
-                                        @diff.Difficulty
-                                    }
+                                    @diff.Difficulty
                                 }
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => dive.Judge1)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => dive.Judge2)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => dive.Judge3)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => dive.Score)
-                            </td>
-                            <td>
-                                @if (SignInManager.IsSignedIn(User))
-                                {
-                                    <a asp-controller="Dives" asp-action="Edit" asp-route-id="@dive.Id" style="float: right">Edit dive</a>
-                                }
-                            </td>
-                        </tr>
-                    }
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => dive.Judge1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => dive.Judge2)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => dive.Judge3)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => dive.Score)
+                        </td>
+                        <td>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <a asp-controller="Dives" asp-action="Edit" asp-route-id="@dive.Id" style="float: right">Edit dive</a>
+                            }
+                        </td>
+                    </tr>
                 }
-            </tbody>
-        </table>
-    }
-}
-
-
-@foreach (var std in ViewData["competitors"] as IList<Competitor>)
-{
+            }
+        </tbody>
+    </table>
 
 }
+
