@@ -103,14 +103,22 @@ namespace simhoppsystemet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CompetitionId,CompetitorId,DiveGroup,Judge1,Judge2,Judge3")] Dive dive)
         {
+
             if (id != dive.Id)
             {
                 return NotFound();
             }
 
+            //Returns list of dives
+            List<Dive> dives = null;
+
+            //Returns the link
+            CompetitionCompetitor link = await _context.CompetitionCompetitor.Where(cc => cc.CompetitionId == dive.CompetitionId && cc.CompetitorId == dive.CompetitorId).FirstAsync();
+
             // Searches through the DB for the match where the divegroups match. The DiveGroup which match are put in a variable
-            DiveGroup link = await _context.DiveGroup.Where(cc => cc.Dive == dive.DiveGroup).FirstAsync();
-            double? diff = link.Difficulty; //Gets the difficulty from the variable that matched the dive
+            DiveGroup grupp = await _context.DiveGroup.Where(cc => cc.Dive == dive.DiveGroup).FirstAsync();
+            double? diff = grupp.Difficulty; //Gets the difficulty from the variable that matched the dive
+
 
             // Checks the median of all dives and takes the difficulty and multiplies it to the median score
             // E.g: If J1 < J2 and J2 < J3 OR J3 < J2  and J2 < J1, then J2 is the median
@@ -127,7 +135,7 @@ namespace simhoppsystemet.Controllers
                     else
                         dive.Score = dive.Judge3 * diff;
 
-                    _context.Update(dive);
+                    _context.Dive.Update(dive);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -141,6 +149,21 @@ namespace simhoppsystemet.Controllers
                         throw;
                     }
                 }
+
+                dives = await _context.Dive.Where(cc => cc.CompetitionId == dive.CompetitionId && cc.CompetitorId == dive.CompetitorId).ToListAsync();
+
+                //Iterates over the list of dives and adds the scores together
+                double? FinalScore = 0;
+                foreach (var div in dives)
+                {
+                    FinalScore += (double?)div.Score;
+                }
+                link.FinalScore = FinalScore;
+
+
+                _context.CompetitionCompetitor.Update(link);
+                await _context.SaveChangesAsync();
+
 
                 return RedirectToAction("Details", "Competitions", new { id = dive.CompetitionId });
             }
