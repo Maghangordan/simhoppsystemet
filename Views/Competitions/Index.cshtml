@@ -19,14 +19,14 @@
             <input name="SearchPhrase" class="form-control" />
             <p></p>
             <input type="submit" value="Search" class="btn btn-primary" style="float: left" />
-        </div>
-        <div class="relative">
-            @if (SignInManager.IsSignedIn(User))
-            {
-                <a asp-action="Create" class="btn btn-primary" style="float: right">Create a new competition</a>
-            }
-        </div>
     </form>
+
+    <div class="relative">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <a asp-action="Create" class="btn btn-primary" style="float: right">Create a new competition</a>
+        }
+    </div>
     <br />
 </div>
 <p><br /></p>

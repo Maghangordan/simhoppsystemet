@@ -104,5 +104,7 @@
 
 <!--Nuså, visas den sist!-->
 <div class="align-items-end">
-    Final Score: @Math.Round((Double)ViewBag.FinalScore, 2)
+    Final Score: @if ((Double?)ViewBag.FinalScore != null) {
+        @Math.Round((Double)ViewBag.FinalScore, 2);
+    }
 </div>
