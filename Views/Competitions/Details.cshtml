@@ -42,11 +42,12 @@
         &nbsp;
         @std.Organization
     </h5>
+    <!-- If there exists a a finalscore, print it out with 2 decimals-->
     @foreach (var comp in ViewData["finalscore"] as IList<CompetitionCompetitor>)
     {
         if (std.Id == comp.CompetitorId && comp.FinalScore != null)
         {
-            <h6>Final Score: @comp.FinalScore</h6>
+            <h6>Final Score: @Math.Round((Double)comp.FinalScore, 2)</h6>
         }
     }
     <table class="table">
