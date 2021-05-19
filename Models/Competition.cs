@@ -31,6 +31,10 @@ namespace simhoppsystemet.Models
             {
                 yield return new ValidationResult("Can't create a competition on a past date.");
             }
+            if (this.EndDate < this.Date)
+            {
+                yield return new ValidationResult("Competition can't end before it has started.");
+            }
         }
 
         public Competition()

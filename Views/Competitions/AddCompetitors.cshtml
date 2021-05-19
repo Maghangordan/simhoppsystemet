@@ -74,7 +74,8 @@
 
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to List</a> | 
+    <a asp-controller="Competitors" asp-action="Create">Create a new competitor</a>
 </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

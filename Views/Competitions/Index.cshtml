@@ -47,7 +47,7 @@
         {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Date) - @Html.DisplayFor(modelItem => item.EndDate)
+                @Html.DisplayFor(modelItem => item.Date) @if (item.Date != item.EndDate) {<text>- </text> @Html.DisplayFor(modelItem => item.EndDate)}
             </td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">
