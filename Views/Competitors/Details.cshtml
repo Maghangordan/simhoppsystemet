@@ -37,30 +37,30 @@
         </dd>
     </dl>
 </div>
-<table class="table col-sm-4">
+<table class="table col-sm-5">
     <thead>
     <tr>
     <th>
-        Competitions
+        Date
     </th>
         <th>
-            Date
+            Competitions
         </th>
     </tr>
     </thead>
     <tbody>
         @foreach (var std in ViewData["competitions"] as IList<Competition>)
             {
-            <tr>
-                <td>
-                    <a asp-action="Details" asp-controller="Competitions" asp-route-id="@std.Id">
-                        @std.Name
-                    </a>
-                </td>
-                <td>
-                    @std.Date.DayOfWeek @std.Date.Year-@std.Date.Month-@std.Date.Day
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @std.Date.DayOfWeek @std.Date.Year-@std.Date.Month-@std.Date.Day
+            </td>
+            <td>
+                <a asp-action="Details" asp-controller="Competitions" asp-route-id="@std.Id">
+                    @std.Name
+                </a>
+            </td>
+        </tr>
 
             }
     </tbody>

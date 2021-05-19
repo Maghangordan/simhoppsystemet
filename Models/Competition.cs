@@ -14,6 +14,11 @@ namespace simhoppsystemet.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
         [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime EndDate { get; set; }
+
+        [Required]
         [StringLength(50)]
         public string Name { get; set; }
         public List<Dive> Dives { get; set; } //1-N
@@ -25,6 +30,10 @@ namespace simhoppsystemet.Models
             if (this.Date < DateTime.Now)
             {
                 yield return new ValidationResult("Can't create a competition on a past date.");
+            }
+            if (this.EndDate < this.Date)
+            {
+                yield return new ValidationResult("Competition can't end before it has started.");
             }
         }
 

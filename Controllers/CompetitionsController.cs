@@ -88,7 +88,7 @@ namespace simhoppsystemet.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id, Date, Name")] Competition competition)
+        public async Task<IActionResult> Create([Bind("Id, Date, EndDate, Name")] Competition competition)
         {
 
             if (ModelState.IsValid)
@@ -223,7 +223,7 @@ namespace simhoppsystemet.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Name")] Competition competition)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,EndDate,Name")] Competition competition)
         {
             if (id != competition.Id)
             {

@@ -12,8 +12,18 @@
     <hr />
     <dl class="row">
         <dd class="col-sm-2">
-            Day: @Html.DisplayFor(model => model.Date.DayOfWeek) <br />
-            Date: @Html.DisplayFor(model => model.Date)
+            <!-- If competition happens several days, prints out end and start date, if it is only one day, prints out the single day -->
+            @if (Model.Date != Model.EndDate)
+            {
+                <text>Start Day: </text> @Html.DisplayFor(model => model.Date.DayOfWeek)<br />
+                <text>Start Date: </text> @Html.DisplayFor(model => model.Date)<br />
+                <text>End Date: </text> @Html.DisplayFor(model => model.EndDate)
+            }
+            @if (Model.Date == Model.EndDate)
+            {
+            <text>Day: </text> @Html.DisplayFor(model => model.Date.DayOfWeek)<br />
+            <text>Date: </text> @Html.DisplayFor(model => model.Date)
+            }
         </dd>
     </dl>
 </div>
