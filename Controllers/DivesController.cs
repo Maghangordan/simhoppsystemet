@@ -197,12 +197,32 @@ namespace simhoppsystemet.Controllers
             return View(dive);
         }
 
+        public async Task<IActionResult> JudgeOne(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var dive = await _context.Dive.FindAsync(id);
+            if (dive == null)
+            {
+                return NotFound();
+            }
+            ViewData["CompetitionId"] = new SelectList(_context.Competition, "Id", "Id", dive.CompetitionId);
+            ViewData["CompetitorId"] = new SelectList(_context.Competitor, "Id", "Id", dive.CompetitorId);
+
+            // Gets all of the divecategories and outs them in a list
+            ViewData["divecategories"] = new SelectList(_context.DiveGroup, "Dive", "Dive", dive.DiveGroup);
+            return View(dive);
+        }
+
         // POST: Dives/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> JudgeView(int id, [Bind("Judge1,Judge2,Judge3")] Dive dive)
+        public async Task<IActionResult> JudgeView(int id, [Bind("Id,CompetitionId,CompetitorId,DiveGroup,Judge1,Judge2,Judge3")] Dive dive)
         {
             if (id != dive.Id)
             {
