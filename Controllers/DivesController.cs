@@ -127,13 +127,13 @@ namespace simhoppsystemet.Controllers
                 try
                 {
                     if ((dive.Judge1 < dive.Judge2 && dive.Judge2 < dive.Judge3) || (dive.Judge3 < dive.Judge2 && dive.Judge2 < dive.Judge1))
-                        dive.Score = dive.Judge2 * diff;
+                        dive.Score = dive.Judge2 * diff * 3;
 
                     else if ((dive.Judge2 < dive.Judge1 && dive.Judge1 < dive.Judge3) || (dive.Judge3 < dive.Judge1 && dive.Judge1 < dive.Judge2))
-                        dive.Score = dive.Judge1 * diff;
+                        dive.Score = dive.Judge1 * diff * 3;
 
                     else
-                        dive.Score = dive.Judge3 * diff;
+                        dive.Score = dive.Judge3 * diff * 3;
 
                     _context.Dive.Update(dive);
                     await _context.SaveChangesAsync();
@@ -240,13 +240,13 @@ namespace simhoppsystemet.Controllers
                 try
                 {
                     if ((dive.Judge1 < dive.Judge2 && dive.Judge2 < dive.Judge3) || (dive.Judge3 < dive.Judge2 && dive.Judge2 < dive.Judge1))
-                        dive.Score = dive.Judge2 * diff;
+                        dive.Score = dive.Judge2 * diff * 3;
 
                     else if ((dive.Judge2 < dive.Judge1 && dive.Judge1 < dive.Judge3) || (dive.Judge3 < dive.Judge1 && dive.Judge1 < dive.Judge2))
-                        dive.Score = dive.Judge1 * diff;
+                        dive.Score = dive.Judge1 * diff * 3;
 
                     else
-                        dive.Score = dive.Judge3 * diff;
+                        dive.Score = dive.Judge3 * diff * 3;
 
 
                     _context.Update(dive);
