@@ -5,20 +5,6 @@
     <UserSecretsId>aspnet-simhoppsystemet-CA046CEB-E679-4DE6-8BBF-49D2B70BE401</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Data\Migrations\**" />
-    <Compile Remove="simhoppsystemet.UnitTests\**" />
-    <Compile Remove="Testing\**" />
-    <Content Remove="Data\Migrations\**" />
-    <Content Remove="simhoppsystemet.UnitTests\**" />
-    <Content Remove="Testing\**" />
-    <EmbeddedResource Remove="Data\Migrations\**" />
-    <EmbeddedResource Remove="simhoppsystemet.UnitTests\**" />
-    <EmbeddedResource Remove="Testing\**" />
-    <None Remove="Data\Migrations\**" />
-    <None Remove="simhoppsystemet.UnitTests\**" />
-    <None Remove="Testing\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.12" />
