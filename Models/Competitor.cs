@@ -12,6 +12,7 @@ namespace simhoppsystemet.Models
     public class Competitor
     {
         public int Id { get; set; }
+        [Range(0,120, ErrorMessage ="Ange en ålder mellan 0 och 120.")]
         public int Age { get; set; }
         [Required]
         [StringLength(50, MinimumLength = 2)]
