@@ -1,8 +1,13 @@
 {
   "dependencies": {
+    "secrets1": {
+      "type": "secrets.user"
+    },
     "mssql1": {
-      "type": "mssql.local",
-      "connectionId": "DefaultConnection"
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/simhoppsystemetdbserver/databases/simhoppsystemet_db",
+      "type": "mssql.azure",
+      "connectionId": "DefaultConnection",
+      "secretStore": "LocalSecretsFile"
     }
   }
 }
